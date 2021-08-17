@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>회원정보 수정</title>
+    <link href="../static/css/index.css" th:href="@{/css/index.css}" rel="stylesheet" />
+</head>
+<body>
+<h1>회원의 티어를 수정합니다.</h1>
+<hr>
+<form method="post">
+    <fieldset>
+        <table>
+            <tr>
+                <td><label>SolvedAC 티어</label></td>
+                <td><input type="text" name="tier"></td>
+            </tr>
+        </table>
+    </fieldset>
+    <br>
+    <input type="submit" value="정보수정">
+</form>
+</body>
+</html>

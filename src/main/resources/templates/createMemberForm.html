@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>그룹 회원가입 창</title>
+    <link href="../static/css/index.css" th:href="@{/css/index.css}" rel="stylesheet" />
+</head>
+<body>
+    <h1>소박하지만 그룹입니다 회원으로!</h1>
+    <pre>
+        매주 일요일마다 실전같은 코딩 테스트 훈련은 물론,
+        자신의 실력에 맞는 Division 대회 참가뿐 아니라
+        그룹 사람들과 친목 및 정모까지 함께!
+    </pre>
+    <hr>
+    <form method="post">
+        <fieldset>
+            <legend>바로 회원가입 해야겠다!</legend>
+            <table>
+                <tr>
+                    <td><label>백준 아이디</label></td>
+                    <td><input type="text" name="name"></td>
+                </tr>
+                <tr>
+                    <td><label>SolvedAC 티어</label></td>
+                    <td><input type="text" name="tier"></td>
+                </tr>
+            </table>
+            <input type="submit" value="회원가입">
+        </fieldset>
+        <p>회원가입까지 1~2일 소요될 수 있습니다.</p>
+    </form>
+</body>
+</html>

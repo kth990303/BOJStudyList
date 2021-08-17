@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>회원가입 연습 홈페이지</title>
+    <link href="../static/css/index.css" th:href="@{/css/index.css}" rel="stylesheet" />
+</head>
+<body>
+    <h1>소박하지만 그룹입니다</h1>
+    <a href="/login">로그인</a><br>
+    <a href="/createMemberForm">회원가입</a>
+    <hr>
+    <div class="container">
+        <table width="100%" border="1">
+            <thead>
+            <tr>
+                <th>번호</th>
+                <th>백준 아이디</th>
+                <th>Solved 티어</th>
+                <th>정보 수정 및 삭제</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="member : ${members}">
+                <td th:text="${member.id}"></td>
+                <td th:text="${member.name}"></td>
+                <td th:text="${member.tier}"></td>
+                <td><a href="/" th:href="@{'edit/'+${member.id}}">수정</a>
+                    <a href="/" th:href="@{'delete/'+${member.id}}">삭제</a></td>
+            </tr>
+            </tbody>
+
+        </table>
+    </div>
+</body>
+</html>
