@@ -1,9 +1,9 @@
 package algopa.study;
 
-import algopa.study.repository.JpaMemberRepository;
-import algopa.study.repository.MemberRepository;
-import algopa.study.service.MemberService;
-import algopa.study.service.MemberServiceImpl;
+import algopa.study.member.JpaMemberRepository;
+import algopa.study.member.MemberRepository;
+import algopa.study.member.MemberService;
+import algopa.study.member.MemberServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 
