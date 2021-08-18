@@ -21,6 +21,16 @@ public class MemberController {
         return "index";
     }
 
+    @GetMapping("/login")
+    public String loginForm(){
+        return "login";
+    }
+
+    @PostMapping("/login")
+    public String login(Member member){
+        return "redirect:/";
+    }
+
     @GetMapping(value = "/createMemberForm")
     public String createForm() {
         return "createMemberForm";
