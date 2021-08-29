@@ -25,12 +25,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .csrf().disable()// 나중에 없애기
+                //.csrf().disable()// 나중에 없애기
                 .authorizeRequests()
                 .antMatchers("/", "/createMemberForm", "/login", "/errorPage", "/index").permitAll()
-                .antMatchers("/editMember").hasRole("USER")
-                // .anyRequest().authenticated()
-                .anyRequest().permitAll()
+                .antMatchers("/editMember").hasRole("ADMIN")
+                .anyRequest().authenticated()
 
                 .and()
                 .formLogin()

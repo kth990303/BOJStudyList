@@ -29,8 +29,8 @@
                 <td th:text="${member.id}"></td>
                 <td th:text="${member.name}"></td>
                 <td th:text="${member.tier}"></td>
-                <td><a sec:authorize="hasRole('ROLE_USER')" href="/" th:href="@{'edit/'+${member.id}}">수정</a>
-                    <a sec:authorize="hasRole('ROLE_USER')" href="/" th:href="@{'delete/'+${member.id}}">삭제</a></td>
+                <td><a href="/" th:href="@{'edit/'+${member.id}}">수정</a>
+                    <a href="/" th:href="@{'delete/'+${member.id}}">삭제</a></td>
             </tr>
             </tbody>
 
