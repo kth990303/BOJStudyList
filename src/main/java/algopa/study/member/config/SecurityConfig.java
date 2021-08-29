@@ -1,4 +1,4 @@
-package algopa.study.salt.config;
+package algopa.study.member.config;
 
 import algopa.study.member.MemberService;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +14,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @RequiredArgsConstructor
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
     private final MemberService memberService;
 
     @Override
@@ -24,6 +25,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
+                .csrf().disable()// 나중에 없애기
                 .authorizeRequests()
                 .antMatchers("/", "/createMemberForm", "/login", "/errorPage", "/index").permitAll()
                 .antMatchers("/editMember").hasRole("USER")
@@ -33,13 +35,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .formLogin()
                 .loginPage("/login")
-                .defaultSuccessUrl("/index")
+                .defaultSuccessUrl("/")
+                .permitAll()
 
                 .and()
                 .logout()
-                .logoutSuccessUrl("/index")
+                .logoutSuccessUrl("/")
                 .invalidateHttpSession(true)
                 ;
     }
 
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(memberService)
+                .passwordEncoder(new BCryptPasswordEncoder());
+    }
 }

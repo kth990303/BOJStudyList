@@ -24,10 +24,6 @@ class MemberServiceImplTest {
     MemberService service;
     @Autowired
     MemberRepository repository;
-    @Autowired
-    SaltUtil saltUtil;
-    @Autowired
-    SaltRepository saltRepository;
 
     @BeforeEach
     public void beforeEach(){
@@ -63,10 +59,10 @@ class MemberServiceImplTest {
 
     @Test
     void login(){
-        Member member=new Member("test", "Silver V", "test@naver.com", "123456");
+        Member member=new Member("test2", "Silver V", "test@naver.com", "123456");
         service.join(member);
 
-        String name="test";
+        String name="test2";
         String password="123456";
 
         Member loginMember = service.loginMember(name, password);

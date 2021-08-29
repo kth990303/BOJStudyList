@@ -14,13 +14,13 @@
         그룹 사람들과 친목 및 정모까지 함께!
     </pre>
 <hr>
-<form method="post">
+<form action="/login" th:action="@{/login}" method="post">
     <fieldset>
         <legend>로그인</legend>
         <table>
             <tr>
                 <td><label>아이디(백준)</label></td>
-                <td><input type="text" name="name"></td>
+                <td><input type="text" name="username"></td>
             </tr>
             <tr>
                 <td><label>비밀번호</label></td>

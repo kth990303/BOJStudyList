@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <title>회원가입 연습 홈페이지</title>
@@ -8,8 +8,11 @@
 </head>
 <body>
     <h1>소박하지만 그룹입니다</h1>
-    <a href="/login">로그인</a><br>
-    <a href="/createMemberForm">회원가입</a>
+    <a sec:authorize="isAnonymous()" href="/login" th:href="@{/login}">로그인</a><br>
+    <a sec:authorize="isAnonymous()" href="/createMemberForm" th:href="@{/createMemberForm}">회원가입</a>
+    <a sec:authorize="isAuthenticated()">
+        <span sec:authentication="name"></span>님 환영합니다!</a>
+    <a sec:authorize="hasRole('ROLE_ADMIN')">이 사이트의 관리자님이십니다.</a>
     <hr>
     <div class="container">
         <table width="100%" border="1">
@@ -26,8 +29,8 @@
                 <td th:text="${member.id}"></td>
                 <td th:text="${member.name}"></td>
                 <td th:text="${member.tier}"></td>
-                <td><a href="/" th:href="@{'edit/'+${member.id}}">수정</a>
-                    <a href="/" th:href="@{'delete/'+${member.id}}">삭제</a></td>
+                <td><a sec:authorize="hasRole('ROLE_USER')" href="/" th:href="@{'edit/'+${member.id}}">수정</a>
+                    <a sec:authorize="hasRole('ROLE_USER')" href="/" th:href="@{'delete/'+${member.id}}">삭제</a></td>
             </tr>
             </tbody>
 
