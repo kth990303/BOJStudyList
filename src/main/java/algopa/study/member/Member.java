@@ -24,8 +24,17 @@ public class Member {
     @NotNull
     private String tier;
 
-    public Member(String name, String tier) {
+    public Member(String name, String tier, String email) {
         this.name = name;
         this.tier = tier;
+        this.email=email;
+        this.password="0";
+    }
+
+    public Member(String name, String tier, String email, String password) {
+        this.name = name;
+        this.tier = tier;
+        this.email=email;
+        this.password=password;
     }
 }

@@ -1,7 +1,5 @@
 package algopa.study.member;
 
-import algopa.study.member.Member;
-
 import java.util.List;
 
 public interface MemberService {

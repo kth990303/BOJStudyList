@@ -26,8 +26,8 @@ dependencies {
 	// jpa
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	// spring security
-	//implementation 'org.springframework.boot:spring-boot-starter-security'
-	//testImplementation 'org.springframework.security:spring-security-test'
+	// implementation 'org.springframework.boot:spring-boot-starter-security'
+	// testImplementation 'org.springframework.security:spring-security-test'
 
 	//lombok 라이브러리 추가 시작
 	compileOnly 'org.projectlombok:lombok'

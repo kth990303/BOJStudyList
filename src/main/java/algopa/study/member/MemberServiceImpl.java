@@ -18,7 +18,14 @@ public class MemberServiceImpl implements MemberService{
 
     @Override
     public Long edit(Long id, Member changeMember) {
-        memberRepository.edit(id, changeMember);
+        Optional<Member> findMember = memberRepository.findById(id);
+        if(findMember.isPresent()){
+            Member member = findMember.get();
+            member.setEmail(changeMember.getEmail());
+            member.setTier(changeMember.getTier());
+            member.setPassword(changeMember.getPassword());
+            memberRepository.save(member);
+        }
         return id;
     }
 
@@ -26,10 +33,10 @@ public class MemberServiceImpl implements MemberService{
     @Override
     public Long join(Member member){
         if(checkDuplicateMember(member)){
-            memberRepository.save(member);
-            return member.getId();
+            return -1L;
         }
-        return -1L;
+        memberRepository.save(member);
+        return member.getId();
     }
     //회원 삭제
     @Override
@@ -39,15 +46,12 @@ public class MemberServiceImpl implements MemberService{
     //중복 회원 존재여부 확인
     @Override
     public Boolean checkDuplicateMember(Member member) {
-        Optional<Member> findMember = memberRepository.findByName(member.getName());
-        if(findMember.isPresent()){
-            return false;
-        }
-        return true;
+        return memberRepository.existsByName(member.getName());
     }
     //전체 회원 조회
     @Override
     public List<Member> findAllMembers(){
-        return memberRepository.findAll();
+       return (List)memberRepository.findAll();
+
     }
 }
