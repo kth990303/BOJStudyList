@@ -1,5 +1,7 @@
 package algopa.study.member;
 
+import algopa.study.salt.SaltRepository;
+import algopa.study.salt.SaltUtil;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -22,6 +24,10 @@ class MemberServiceImplTest {
     MemberService service;
     @Autowired
     MemberRepository repository;
+    @Autowired
+    SaltUtil saltUtil;
+    @Autowired
+    SaltRepository saltRepository;
 
     @BeforeEach
     public void beforeEach(){
@@ -47,12 +53,24 @@ class MemberServiceImplTest {
 
     @Test
     void join() {
-        Member member=new Member("test", "Silver V", "test@naver.com");
+        Member member=new Member("test", "Silver V", "test@naver.com", "123456");
 
         service.join(member);
         Member findMember = repository.findByName("test");
 
         Assertions.assertThat(findMember).isEqualTo(member);
+    }
+
+    @Test
+    void login(){
+        Member member=new Member("test", "Silver V", "test@naver.com", "123456");
+        service.join(member);
+
+        String name="test";
+        String password="123456";
+
+        Member loginMember = service.loginMember(name, password);
+        Assertions.assertThat(member).isEqualTo(loginMember);
     }
 
     @Test

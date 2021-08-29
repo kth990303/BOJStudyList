@@ -1,5 +1,6 @@
 package algopa.study.member;
 
+import algopa.study.salt.Salt;
 import com.sun.istack.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,6 +24,10 @@ public class Member {
     private String email;
     @NotNull
     private String tier;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name="salt_id")
+    private Salt salt;
 
     public Member(String name, String tier, String email) {
         this.name = name;

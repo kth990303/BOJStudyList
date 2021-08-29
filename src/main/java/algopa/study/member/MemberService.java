@@ -8,4 +8,7 @@ public interface MemberService {
     void deleteMember(Long id);
     Boolean checkDuplicateMember(Member member);
     List<Member> findAllMembers();
+    // 로그인 관련
+    void saltUserPassword(Member member);
+    Member loginMember(String username, String password);
 }

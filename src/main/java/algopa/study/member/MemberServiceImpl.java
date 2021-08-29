@@ -1,20 +1,52 @@
 package algopa.study.member;
 
+import algopa.study.salt.Salt;
+import algopa.study.salt.SaltRepository;
+import algopa.study.salt.SaltUtil;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 @Service
 @Transactional
 @Getter @Setter
 @RequiredArgsConstructor
 public class MemberServiceImpl implements MemberService{
     private final MemberRepository memberRepository;
+
+    private final SaltRepository saltRepository;
+
+    private final SaltUtil saltUtil;
+
+    @Override
+    public void saltUserPassword(Member member) {
+        String password=member.getPassword();
+        String salt = saltUtil.genSalt();
+        log.info("salt={}", salt);
+        member.setSalt(new Salt(salt));
+        member.setPassword(saltUtil.encodePassword(salt, password));
+    }
+
+    @Override
+    public Member loginMember(String username, String password) {
+        Member findMember = memberRepository.findByName(username);
+        if(findMember==null){
+            return null;
+        }
+        String salt=findMember.getSalt().getSalt();
+        String encodePassword = saltUtil.encodePassword(salt, password);
+        if(findMember.getPassword().equals(encodePassword))
+            return findMember;
+        else
+            return null;
+    }
 
     @Override
     public Long edit(Long id, Member changeMember) {
@@ -35,6 +67,7 @@ public class MemberServiceImpl implements MemberService{
         if(checkDuplicateMember(member)){
             return -1L;
         }
+        saltUserPassword(member);
         memberRepository.save(member);
         return member.getId();
     }
@@ -52,6 +85,7 @@ public class MemberServiceImpl implements MemberService{
     @Override
     public List<Member> findAllMembers(){
        return (List)memberRepository.findAll();
-
     }
+
+
 }
