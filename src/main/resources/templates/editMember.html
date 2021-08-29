@@ -7,7 +7,7 @@
     <link href="../static/css/index.css" th:href="@{/css/index.css}" rel="stylesheet" />
 </head>
 <body>
-<h1>회원의 티어를 수정합니다.</h1>
+<h1>회원정보를 수정합니다.</h1>
 <hr>
 <form method="post">
     <fieldset>
@@ -15,6 +15,10 @@
             <tr>
                 <td><label>SolvedAC 티어</label></td>
                 <td><input type="text" name="tier"></td>
+                <td><label>이메일</label></td>
+                <td><input type="email" name="email"></td>
+                <td><label>비밀번호</label></td>
+                <td><input type="password" name="password"></td>
             </tr>
         </table>
     </fieldset>

@@ -37,10 +37,12 @@ public class JpaMemberRepository implements MemberRepository{
     }
 
     @Override
-    public Member edit(Long id, String tier) {
+    public Member edit(Long id, Member changeMember) {
         Optional<Member> member = findById(id);
         if(member.isPresent()){
-            member.get().setTier(tier);
+            member.get().setTier(changeMember.getTier());
+            member.get().setEmail(changeMember.getEmail());
+            member.get().setPassword(changeMember.getPassword());
             em.persist(member.get());
             return member.get();
         }

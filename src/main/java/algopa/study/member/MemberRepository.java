@@ -10,6 +10,6 @@ public interface MemberRepository {
     void deleteById(Long id);
     Optional<Member> findByName(String name);
     Optional<Member> findById(Long id);
-    Member edit(Long id, String tier);
+    Member edit(Long id, Member changeMember);
     List<Member> findAll();
 }

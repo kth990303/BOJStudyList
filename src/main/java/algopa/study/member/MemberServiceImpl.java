@@ -17,8 +17,8 @@ public class MemberServiceImpl implements MemberService{
     private final MemberRepository memberRepository;
 
     @Override
-    public Long edit(Long id, Member member) {
-        memberRepository.edit(id, member.getTier());
+    public Long edit(Long id, Member changeMember) {
+        memberRepository.edit(id, changeMember);
         return id;
     }
 
