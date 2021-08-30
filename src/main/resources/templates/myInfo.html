@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>내 정보</title>
+    <link href="../static/css/index.css" th:href="@{/css/index.css}" rel="stylesheet" />
+</head>
+<body>
+<h1>My Info</h1>
+    <span sec:authentication="name"></span>님</a>
+<a sec:authorize="hasRole('ROLE_ADMIN')">(관리자)</a>
+<hr>
+<div class="container">
+    <p th:text="|현재 티어: ${member.tier}|"></p>
+    <a sec:authorize="isAuthenticated()" th:href="@{/logout}">로그아웃</a><br>
+    <a sec:authorize="isAuthenticated()" th:href="@{'edit/'+${member.id}}">정보수정</a><br>
+    <a sec:authorize="isAuthenticated()" th:href="@{'delete/'+${member.id}}">회원탈퇴</a><br>
+</div>
+</body>
+</html>

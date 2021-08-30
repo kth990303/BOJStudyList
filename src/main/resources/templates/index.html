@@ -10,9 +10,11 @@
     <h1>소박하지만 그룹입니다</h1>
     <a sec:authorize="isAnonymous()" href="/login" th:href="@{/login}">로그인</a><br>
     <a sec:authorize="isAnonymous()" href="/createMemberForm" th:href="@{/createMemberForm}">회원가입</a>
+    <a sec:authorize="isAuthenticated()" href="/login" th:href="@{/logout}">로그아웃</a><br>
     <a sec:authorize="isAuthenticated()">
         <span sec:authentication="name"></span>님 환영합니다!</a>
     <a sec:authorize="hasRole('ROLE_ADMIN')">이 사이트의 관리자님이십니다.</a>
+    <a sec:authorize="isAuthenticated()" href="/myInfo" th:href="@{/myInfo}">내 정보</a><br>
     <hr>
     <div class="container">
         <table width="100%" border="1">
@@ -29,8 +31,8 @@
                 <td th:text="${member.id}"></td>
                 <td th:text="${member.name}"></td>
                 <td th:text="${member.tier}"></td>
-                <td><a href="/" th:href="@{'edit/'+${member.id}}">수정</a>
-                    <a href="/" th:href="@{'delete/'+${member.id}}">삭제</a></td>
+                <td><a sec:authorize="hasRole('ROLE_ADMIN')" href="/" th:href="@{'edit/'+${member.id}}">수정</a>
+                    <a sec:authorize="hasRole('ROLE_ADMIN')" href="/" th:href="@{'delete/'+${member.id}}">삭제</a></td>
             </tr>
             </tbody>
 

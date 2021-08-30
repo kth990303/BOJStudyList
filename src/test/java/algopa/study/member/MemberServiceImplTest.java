@@ -57,17 +57,17 @@ class MemberServiceImplTest {
         Assertions.assertThat(findMember).isEqualTo(member);
     }
 
-    @Test
-    void login(){
-        Member member=new Member("test2", "Silver V", "test@naver.com", "123456");
-        service.join(member);
-
-        String name="test2";
-        String password="123456";
-
-        Member loginMember = service.loginMember(name, password);
-        Assertions.assertThat(member).isEqualTo(loginMember);
-    }
+//    @Test
+//    void login(){
+//        Member member=new Member("test2", "Silver V", "test@naver.com", "123456");
+//        service.join(member);
+//
+//        String name="test2";
+//        String password="123456";
+//
+//        Member loginMember = service.loginMember(name, password);
+//        Assertions.assertThat(member).isEqualTo(loginMember);
+//    }
 
     @Test
     void deleteMember() {

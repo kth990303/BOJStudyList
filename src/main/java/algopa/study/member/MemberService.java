@@ -17,10 +17,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 @Slf4j
 @Service
@@ -43,21 +40,6 @@ public class MemberService implements UserDetailsService {
         return new User(findMember.getName(), findMember.getPassword(), roles);
     }
 
-    public Member loginMember(String name, String password){
-        Member findMember = memberRepository.findByName(name);
-        if(findMember==null){
-            log.info("존재하지 않는 회원입니다.");
-            return null;
-        }
-        BCryptPasswordEncoder encoder=new BCryptPasswordEncoder();
-
-        if(encoder.matches(password, findMember.getPassword()))
-            return findMember;
-        else{
-            log.info("비밀번호가 틀렸습니다.");
-            return null;
-        }
-    }
 
     public Long edit(Long id, Member changeMember) {
         Optional<Member> findMember = memberRepository.findById(id);
@@ -82,6 +64,13 @@ public class MemberService implements UserDetailsService {
         member.setPassword(encoder.encode(member.getPassword()));
         memberRepository.save(member);
         return member.getId();
+    }
+    public Member findById(Long id){
+        Optional<Member> member = memberRepository.findById(id);
+        return member.get();
+    }
+    public Member findByName(String name){
+        return memberRepository.findByName(name);
     }
     //회원 삭제
     public void deleteMember(Long id){

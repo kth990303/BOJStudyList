@@ -42,7 +42,21 @@ public class MemberController {
         return "redirect:/";
     }
 
-    @GetMapping(value = "/createMemberForm")
+    @GetMapping("/myInfo")
+    public String MemberInfo(Model model){
+        try{
+            String name = SecurityContextHolder.getContext().getAuthentication().getName();
+
+            Member member = memberService.findByName(name);
+            model.addAttribute("member", member);
+        } catch(Exception e){
+            e.printStackTrace();
+            return "error/notFound404Page";
+        }
+        return "myInfo";
+    }
+
+    @GetMapping("/createMemberForm")
     public String createForm() {
         return "createMemberForm";
     }
@@ -52,7 +66,7 @@ public class MemberController {
         Long memberId = memberService.join(member);
         log.info("memberId= {}", memberId);
         if(memberId==-1L)
-            return "errorPage";
+            return "error/duplicateErrorPage";
         return "redirect:/";
     }
 
@@ -71,6 +85,11 @@ public class MemberController {
     public String delete(@PathVariable Long id){
         System.out.println(id+"번 삭제");
         memberService.deleteMember(id);
-        return "redirect:/";
+        return "redirect:/logout";
+    }
+
+    @GetMapping("/*")
+    public String NotFound(){
+        return "error/notFound404Page";
     }
 }
