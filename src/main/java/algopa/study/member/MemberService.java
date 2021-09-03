@@ -34,15 +34,14 @@ public class MemberService implements UserDetailsService {
         if(findMember.getName().equals("kth990303")){
             roles.add(new SimpleGrantedAuthority(MemberRole.ADMIN.getValue()));
         }
-        else{
-            roles.add(new SimpleGrantedAuthority(MemberRole.USER.getValue()));
-        }
+        roles.add(new SimpleGrantedAuthority(MemberRole.USER.getValue()));
         return new User(findMember.getName(), findMember.getPassword(), roles);
     }
 
 
     public Long edit(Long id, Member changeMember) {
         Optional<Member> findMember = memberRepository.findById(id);
+        log.info("findMember={}", findMember.get().getName());
         if(findMember.isPresent()){
             BCryptPasswordEncoder encoder=new BCryptPasswordEncoder();
 
