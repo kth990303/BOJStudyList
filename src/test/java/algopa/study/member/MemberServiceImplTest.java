@@ -1,7 +1,6 @@
 package algopa.study.member;
 
-import algopa.study.salt.SaltRepository;
-import algopa.study.salt.SaltUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,13 +11,11 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Transactional
 @Rollback
+@Slf4j
 class MemberServiceImplTest {
     @Autowired
     MemberService service;
@@ -35,13 +32,13 @@ class MemberServiceImplTest {
 
     @Test
     void edit() {
-        Member member=new Member("test", "Silver V", "test@naver.com");
-        Member member2=new Member("test", "Silver IV", "test@gmail.com");
+        MemberDto member=new MemberDto("test", "Silver V", "123456", "test@naver.com");
+        MemberDto member2=new MemberDto("test", "Silver IV", "12345", "test@gmail.com");
 
-        repository.save(member);
-        Member findMember = repository.findByName(member.getName());
-
-        service.edit(findMember.getId(), member2);
+        Long joinMemberId = service.join(member);
+        // security test 공부하기
+        // 현재, 권한이 없어서 edit이 작동이 안돼서 test fail
+        service.edit(joinMemberId, member2);
 
         Assertions.assertThat(member.getTier()).isEqualTo("Silver IV");
         Assertions.assertThat(member.getEmail()).isEqualTo("test@gmail.com");
@@ -49,46 +46,34 @@ class MemberServiceImplTest {
 
     @Test
     void join() {
-        Member member=new Member("test", "Silver V", "test@naver.com", "123456");
-
-        service.join(member);
-        Member findMember = repository.findByName("test");
-
-        Assertions.assertThat(findMember).isEqualTo(member);
+        MemberDto member=new MemberDto("test", "Silver V", "test@naver.com", "123456");
+        log.info("member.email={}", member.getEmail());
+        Long joinMemberId = service.join(member);
+        MemberDto findMember = service.toDto(repository.findByName("test"));
+        log.info("findMember.email={}", findMember.getEmail());
+        Assertions.assertThat(findMember.getId()).isEqualTo(joinMemberId);
     }
-
-//    @Test
-//    void login(){
-//        Member member=new Member("test2", "Silver V", "test@naver.com", "123456");
-//        service.join(member);
-//
-//        String name="test2";
-//        String password="123456";
-//
-//        Member loginMember = service.loginMember(name, password);
-//        Assertions.assertThat(member).isEqualTo(loginMember);
-//    }
 
     @Test
     void deleteMember() {
-        Member member=new Member("test", "Silver V", "test@naver.com");
+        Member member=new Member("test", "Silver V", "test@naver.com", "12345");
 
         repository.save(member);
-        List<Member> memberList = service.findAllMembers();
+        List<MemberDto> memberList = service.findAllMembers();
         service.deleteMember(member.getId());
-        List<Member> members = service.findAllMembers();
+        List<MemberDto> members = service.findAllMembers();
 
         Assertions.assertThat(members.size()).isEqualTo(memberList.size()-1);
-        Assertions.assertThat(members).doesNotContain(member);
+        Assertions.assertThat(members).doesNotContain(service.toDto(member));
     }
 
     @Test
     void checkDuplicateMember() {
-        Member member=new Member("test", "Silver V", "test@naver.com");
-        Member member2=new Member("test", "Silver V", "test2@naver.com");
-        Member member3=new Member("test", "Platinum II", "test3@naver.com");
+        MemberDto member=new MemberDto("test", "Silver V", "test@naver.com", "12345");
+        MemberDto member2=new MemberDto("test", "Silver V", "test2@naver.com", "12345");
+        MemberDto member3=new MemberDto("test", "Platinum II", "test3@naver.com", "1234");
 
-        repository.save(member);
+        service.join(member);
         Boolean canMember2 = service.checkDuplicateMember(member2);
         Boolean canMember3 = service.checkDuplicateMember(member3);
 
@@ -98,20 +83,14 @@ class MemberServiceImplTest {
 
     @Test
     void findAllMembers() {
-        Member member=new Member("test", "Silver V", "test@naver.com");
-        Member member2=new Member("test2", "Silver IV", "test2@naver.com");
-        Member member3=new Member("test3", "Silver V", "test3@naver.com");
-        Member member4=new Member("test4", "Silver IV", "test4@gmail.com");
+        MemberDto member1=new MemberDto("test", "Silver V", "test@naver.com", "123");
+        MemberDto member2=new MemberDto("test2", "Silver IV", "test2@naver.com", "12");
+        MemberDto member3=new MemberDto("test3", "Silver V", "test3@naver.com", "!234");
 
-        repository.save(member);
-        repository.save(member2);
-        repository.save(member3);
-        repository.save(member4);
-        List<Member> allMembers = service.findAllMembers();
+        Long member1Id = service.join(member1);
+        Long member2Id = service.join(member2);
+        Long member3Id = service.join(member3);
 
-        Assertions.assertThat(allMembers).contains(member);
-        Assertions.assertThat(allMembers).contains(member2);
-        Assertions.assertThat(allMembers).contains(member3);
-        Assertions.assertThat(allMembers).contains(member4);
+        // findall 테스트코드 다시 짜기
     }
 }

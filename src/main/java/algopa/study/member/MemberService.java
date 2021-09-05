@@ -1,12 +1,11 @@
 package algopa.study.member;
 
-import algopa.study.salt.Salt;
-import algopa.study.salt.SaltRepository;
-import algopa.study.salt.SaltUtil;
+
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import org.mapstruct.factory.Mappers;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -27,6 +26,7 @@ import java.util.*;
 @RequiredArgsConstructor
 public class MemberService implements UserDetailsService {
     private final MemberRepository memberRepository;
+    private final MemberMapper mapper= Mappers.getMapper(MemberMapper.class);
 
     @Override
     public UserDetails loadUserByUsername(String name) throws UsernameNotFoundException {
@@ -40,53 +40,67 @@ public class MemberService implements UserDetailsService {
     }
 
 
-    public Long edit(Long id, Member changeMember) {
+    public Long edit(Long id, MemberDto memberDto) {
         Optional<Member> findMember = memberRepository.findById(id);
         log.info("findMember={}", findMember.get().getName());
-        if(findMember.isPresent()){
-            BCryptPasswordEncoder encoder=new BCryptPasswordEncoder();
-
-            Member member = findMember.get();
-            member.setEmail(changeMember.getEmail());
-            member.setTier(changeMember.getTier());
-            String authMemberName = SecurityContextHolder.getContext().getAuthentication().getName();
-            if (authMemberName == changeMember.getName()) {
-                member.setPassword(encoder.encode(changeMember.getPassword()));
-            }
-            memberRepository.save(member);
+        if(findMember.isEmpty()){
+            log.info("회원이 존재하지 않습니다.");
+            return -1L;
         }
-        return id;
+        Member member = findMember.get();
+        BCryptPasswordEncoder encoder=new BCryptPasswordEncoder();
+
+        String authMemberName = SecurityContextHolder.getContext().getAuthentication().getName();
+
+        if (authMemberName.equals(memberDto.getName())) {
+            memberDto.setPassword(encoder.encode(memberDto.getPassword()));
+            member.updateMember(memberDto.getTier(), memberDto.getEmail(), memberDto.getPassword());
+        }
+        member.updateMember(memberDto.getTier(), memberDto.getEmail());
+        return member.getId();
     }
 
     //회원 가입
-    public Long join(Member member){
-        if(checkDuplicateMember(member)){
+    public Long join(MemberDto memberDto){
+        if(checkDuplicateMember(memberDto)){
             return -1L;
         }
         BCryptPasswordEncoder encoder=new BCryptPasswordEncoder();
-        member.setPassword(encoder.encode(member.getPassword()));
-        memberRepository.save(member);
-        return member.getId();
+        memberDto.setPassword(encoder.encode(memberDto.getPassword()));
+        return memberRepository.save(toEntity(memberDto)).getId();
     }
-    public Member findById(Long id){
+    public MemberDto findById(Long id){
         Optional<Member> member = memberRepository.findById(id);
-        return member.get();
+        if(member.isEmpty()){
+            throw new NoSuchElementException("회원이 존재하지 않습니다.");
+        }
+        return toDto(member.get());
     }
-    public Member findByName(String name){
-        return memberRepository.findByName(name);
+    public MemberDto findByName(String name){
+        return toDto(memberRepository.findByName(name));
     }
     //회원 삭제
     public void deleteMember(Long id){
         memberRepository.deleteById(id);
     }
     //중복 회원 존재여부 확인
-    public Boolean checkDuplicateMember(Member member) {
-        return memberRepository.existsByName(member.getName());
+    public Boolean checkDuplicateMember(MemberDto memberDto) {
+        return memberRepository.existsByName(toEntity(memberDto).getName());
     }
     //전체 회원 조회
-    public List<Member> findAllMembers(){
-       return (List)memberRepository.findAll();
+    public List<MemberDto> findAllMembers(){
+        Iterable<Member> all = memberRepository.findAll();
+        for (Member member : all) {
+            log.info("id={}, dtoId={}", member.getId(), toDto(member).getId());
+        }
+        return mapper.toDtoList((List<Member>) memberRepository.findAll());
     }
 
-
+    // MapStruct Mapper Entity <-> Dto
+    protected MemberDto toDto(Member member){
+        return mapper.toDto(member);
+    }
+    protected Member toEntity(MemberDto memberDto){
+        return mapper.toEntity(memberDto);
+    }
 }

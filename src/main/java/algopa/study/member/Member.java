@@ -1,20 +1,16 @@
 package algopa.study.member;
 
-import algopa.study.salt.Salt;
 import com.sun.istack.NotNull;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.util.*;
 
 @Entity
-@Getter @Setter
-@NoArgsConstructor
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Member {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -29,19 +25,24 @@ public class Member {
     @NotNull
     private String tier;
 
-    public Member(String name, String tier, String email) {
-        this.name = name;
-        this.tier = tier;
-        this.email=email;
-        this.password="0";
-    }
-
     public Member(String name, String tier, String email, String password) {
         this.name = name;
         this.tier = tier;
         this.email=email;
         this.password=password;
     }
+
+    // update Entity
+    public void updateMember(String tier, String email){
+        this.tier=tier;
+        this.email=email;
+    }
+    public void updateMember(String tier, String email, String password){
+        this.tier=tier;
+        this.email=email;
+        this.password=password;
+    }
+
 
 //    @Override
 //    public Collection<? extends GrantedAuthority> getAuthorities() {

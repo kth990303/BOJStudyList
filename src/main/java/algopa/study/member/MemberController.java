@@ -24,7 +24,7 @@ public class MemberController {
 
     @GetMapping("/")
     public String home(Model model){
-        List<Member> members= memberService.findAllMembers();
+        List<MemberDto> members= memberService.findAllMembers();
         model.addAttribute("members", members);
         return "index";
     }
@@ -35,7 +35,7 @@ public class MemberController {
     }
 
     @PostMapping("/login")
-    public String login(Member member){
+    public String login(){
         return "redirect:/";
     }
 
@@ -51,8 +51,8 @@ public class MemberController {
         try{
             String name = SecurityContextHolder.getContext().getAuthentication().getName();
 
-            Member member = memberService.findByName(name);
-            model.addAttribute("member", member);
+            MemberDto memberDto = memberService.findByName(name);
+            model.addAttribute("member", memberDto);
         } catch(Exception e){
             e.printStackTrace();
             return "error/notFound404Page";
@@ -66,9 +66,8 @@ public class MemberController {
     }
 
     @PostMapping("/createMemberForm")
-    public String create(Member member){
-        Long memberId = memberService.join(member);
-        log.info("memberId= {}", memberId);
+    public String create(MemberDto memberDto){
+        Long memberId = memberService.join(memberDto);
         if(memberId==-1L)
             return "error/duplicateErrorPage";
         return "redirect:/";
@@ -77,21 +76,21 @@ public class MemberController {
     @GetMapping("/edit/{id}")
     public String editForm(@PathVariable Long id, Model model){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String name = authentication.getName();
+        String authMemberName = authentication.getName();
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
-        Member authMember = memberService.findByName(name);
-        Member member = memberService.findById(id);
-        if(!authorities.contains(new SimpleGrantedAuthority("ROLE_ADMIN")) && authMember!=member){
+        MemberDto memberDto = memberService.findById(id);
+        String name=memberDto.getName();
+        if(!authorities.contains(new SimpleGrantedAuthority("ROLE_ADMIN")) && !authMemberName.equals(name)){
             return "error/notFound404Page";
         }
-        model.addAttribute("member", member);
+        model.addAttribute("member", memberDto);
         return "editMember";
     }
 
     @PostMapping("/edit/{id}")
-    public String edit(Member member){
-        log.info("MemberId: {}, name: {}", member.getId(), member.getName());
-        memberService.edit(member.getId(), member);
+    public String edit(@PathVariable Long id, MemberDto memberDto){
+        log.info("MemberName: {}", memberDto.getName());
+        memberService.edit(memberDto.getId(), memberDto);
         return "redirect:/";
     }
 
@@ -99,6 +98,8 @@ public class MemberController {
     public String delete(@PathVariable Long id){
         System.out.println(id+"번 삭제");
         memberService.deleteMember(id);
+        if(SecurityContextHolder.getContext().getAuthentication().getName().equals("kth990303"))
+            return "redirect:/";
         return "redirect:/logout";
     }
 
