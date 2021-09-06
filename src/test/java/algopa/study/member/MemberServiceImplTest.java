@@ -49,7 +49,7 @@ class MemberServiceImplTest {
         MemberDto member=new MemberDto("test", "Silver V", "test@naver.com", "123456");
         log.info("member.email={}", member.getEmail());
         Long joinMemberId = service.join(member);
-        MemberDto findMember = service.toDto(repository.findByName("test"));
+        Member findMember = repository.findByName("test");
         log.info("findMember.email={}", findMember.getEmail());
         Assertions.assertThat(findMember.getId()).isEqualTo(joinMemberId);
     }
@@ -59,12 +59,12 @@ class MemberServiceImplTest {
         Member member=new Member("test", "Silver V", "test@naver.com", "12345");
 
         repository.save(member);
-        List<MemberDto> memberList = service.findAllMembers();
+        List<Member> memberList = service.findAllMembers();
         service.deleteMember(member.getId());
-        List<MemberDto> members = service.findAllMembers();
+        List<Member> members = service.findAllMembers();
 
         Assertions.assertThat(members.size()).isEqualTo(memberList.size()-1);
-        Assertions.assertThat(members).doesNotContain(service.toDto(member));
+        Assertions.assertThat(members).doesNotContain(member);
     }
 
     @Test

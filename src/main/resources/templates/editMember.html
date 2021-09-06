@@ -9,11 +9,11 @@
 <body>
 <h1>회원정보를 수정합니다.</h1>
 <hr>
-<form th:action="@{'/edit/'+${member.id}}" method="post">
+<form th:action="@{'/edit/'+${id}}" method="post">
     <fieldset>
         <table>
             <tr>
-                <input type="hidden" name="name" th:value="${member.name}">
+                <input type="hidden" name="name" th:value="${memberDto.name}">
                 <td><label>SolvedAC 티어</label></td>
                 <td><input type="text" name="tier"></td>
                 <td><label>이메일</label></td>

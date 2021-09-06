@@ -37,8 +37,9 @@ dependencies {
 	testAnnotationProcessor 'org.projectlombok:lombok'
 	//lombok 라이브러리 추가 끝
 
-	implementation 'org.mapstruct:mapstruct:1.4.1.Final'
-	annotationProcessor 'org.mapstruct:mapstruct-processor:1.4.1.Final'
+	implementation 'org.mapstruct:mapstruct:1.4.2.Final'
+	annotationProcessor 'org.mapstruct:mapstruct-processor:1.4.2.Final'
+	annotationProcessor 'org.projectlombok:lombok-mapstruct-binding:0.2.0'
 
 	// jdbc driver
 	// https://mvnrepository.com/artifact/mysql/mysql-connector-java

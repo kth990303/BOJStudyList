@@ -24,7 +24,8 @@ public class MemberController {
 
     @GetMapping("/")
     public String home(Model model){
-        List<MemberDto> members= memberService.findAllMembers();
+        // 현재 엔티티를 반환중
+        List<Member> members = memberService.findAllMembers();
         model.addAttribute("members", members);
         return "index";
     }
@@ -51,7 +52,10 @@ public class MemberController {
         try{
             String name = SecurityContextHolder.getContext().getAuthentication().getName();
 
+            Long id = memberService.findIdByName(name);
             MemberDto memberDto = memberService.findByName(name);
+
+            model.addAttribute("id", id);
             model.addAttribute("member", memberDto);
         } catch(Exception e){
             e.printStackTrace();
@@ -75,22 +79,28 @@ public class MemberController {
 
     @GetMapping("/edit/{id}")
     public String editForm(@PathVariable Long id, Model model){
+        // 현재 로그인한 유저 정보가 관리자인지 확인하는 코드
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String authMemberName = authentication.getName();
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
+
+        // 수정하려는 유저정보
         MemberDto memberDto = memberService.findById(id);
         String name=memberDto.getName();
+
+        // 관리자가 아닌데도, 타인의 정보를 수정하는 버그가 발생할 경우
         if(!authorities.contains(new SimpleGrantedAuthority("ROLE_ADMIN")) && !authMemberName.equals(name)){
             return "error/notFound404Page";
         }
-        model.addAttribute("member", memberDto);
+        model.addAttribute("id", id);
+        model.addAttribute("memberDto", memberDto);
         return "editMember";
     }
 
     @PostMapping("/edit/{id}")
     public String edit(@PathVariable Long id, MemberDto memberDto){
         log.info("MemberName: {}", memberDto.getName());
-        memberService.edit(memberDto.getId(), memberDto);
+        memberService.edit(id, memberDto);
         return "redirect:/";
     }
 

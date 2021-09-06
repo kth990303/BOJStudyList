@@ -28,6 +28,7 @@ public class MemberService implements UserDetailsService {
     private final MemberRepository memberRepository;
     private final MemberMapper mapper= Mappers.getMapper(MemberMapper.class);
 
+    // 스프링 시큐리티 ROLE_ADMIN, ROLE_USER 부여 메소드
     @Override
     public UserDetails loadUserByUsername(String name) throws UsernameNotFoundException {
         Member findMember = memberRepository.findByName(name);
@@ -38,8 +39,7 @@ public class MemberService implements UserDetailsService {
         roles.add(new SimpleGrantedAuthority(MemberRole.USER.getValue()));
         return new User(findMember.getName(), findMember.getPassword(), roles);
     }
-
-
+    // 회원 정보수정
     public Long edit(Long id, MemberDto memberDto) {
         Optional<Member> findMember = memberRepository.findById(id);
         log.info("findMember={}", findMember.get().getName());
@@ -69,6 +69,8 @@ public class MemberService implements UserDetailsService {
         memberDto.setPassword(encoder.encode(memberDto.getPassword()));
         return memberRepository.save(toEntity(memberDto)).getId();
     }
+    // 회원 DTO 찾기 (id, name)
+    @Transactional(readOnly = true)
     public MemberDto findById(Long id){
         Optional<Member> member = memberRepository.findById(id);
         if(member.isEmpty()){
@@ -76,24 +78,40 @@ public class MemberService implements UserDetailsService {
         }
         return toDto(member.get());
     }
+    @Transactional(readOnly = true)
     public MemberDto findByName(String name){
         return toDto(memberRepository.findByName(name));
+    }
+    @Transactional(readOnly = true)
+    public Long findIdByName(String name){
+        return memberRepository.findByName(name).getId();
+    }
+    // 회원 엔티티 찾기
+    // 엔티티를 필요로 하는 매핑에만 최소한으로 사용할 것
+    @Transactional(readOnly = true)
+    public Member findEntityById(Long id){
+        return memberRepository.findById(id).get();
+    }
+    // 엔티티를 필요로 하는 매핑에만 최소한으로 사용할 것
+    @Transactional(readOnly = true)
+    public Member findEntityByName(String name){
+        return memberRepository.findByName(name);
     }
     //회원 삭제
     public void deleteMember(Long id){
         memberRepository.deleteById(id);
     }
     //중복 회원 존재여부 확인
+    @Transactional(readOnly = true)
     public Boolean checkDuplicateMember(MemberDto memberDto) {
         return memberRepository.existsByName(toEntity(memberDto).getName());
     }
-    //전체 회원 조회
-    public List<MemberDto> findAllMembers(){
-        Iterable<Member> all = memberRepository.findAll();
-        for (Member member : all) {
-            log.info("id={}, dtoId={}", member.getId(), toDto(member).getId());
-        }
-        return mapper.toDtoList((List<Member>) memberRepository.findAll());
+    // 전체 회원 조회
+    // index 홈페이지에서 회원번호 출력을 해야 하고, @pathvariable 요구되는 다른 매핑도 존재하므로
+    // Entity를 출력하되, readOnly로 대체.
+    @Transactional(readOnly = true)
+    public List<Member> findAllMembers(){
+        return (List)memberRepository.findAll();
     }
 
     // MapStruct Mapper Entity <-> Dto

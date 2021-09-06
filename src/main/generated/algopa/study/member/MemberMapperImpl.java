@@ -7,22 +7,36 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2021-09-05T15:21:23+0900",
-    comments = "version: 1.4.1.Final, compiler: javac, environment: Java 11.0.1 (Oracle Corporation)"
+    date = "2021-09-06T21:17:32+0900",
+    comments = "version: 1.4.2.Final, compiler: javac, environment: Java 11.0.1 (Oracle Corporation)"
 )
 @Component
 public class MemberMapperImpl implements MemberMapper {
 
     @Override
-    public void updateFromDto(MemberDto dto, Member entity) {
-        if ( dto == null ) {
-            return;
+    public MemberDto toDto(Member e) {
+        if ( e == null ) {
+            return null;
         }
+
+        String name = null;
+        String password = null;
+        String email = null;
+        String tier = null;
+
+        name = e.getName();
+        password = e.getPassword();
+        email = e.getEmail();
+        tier = e.getTier();
+
+        MemberDto memberDto = new MemberDto( name, tier, email, password );
+
+        return memberDto;
     }
 
     @Override
-    public Member toEntity(MemberDto memberDto) {
-        if ( memberDto == null ) {
+    public Member toEntity(MemberDto d) {
+        if ( d == null ) {
             return null;
         }
 
@@ -31,31 +45,14 @@ public class MemberMapperImpl implements MemberMapper {
         String email = null;
         String password = null;
 
-        name = memberDto.getName();
-        tier = memberDto.getTier();
-        email = memberDto.getEmail();
-        password = memberDto.getPassword();
+        name = d.getName();
+        tier = d.getTier();
+        email = d.getEmail();
+        password = d.getPassword();
 
         Member member = new Member( name, tier, email, password );
 
         return member;
-    }
-
-    @Override
-    public MemberDto toDto(Member member) {
-        if ( member == null ) {
-            return null;
-        }
-
-        MemberDto memberDto = new MemberDto();
-
-        memberDto.setId( member.getId() );
-        memberDto.setName( member.getName() );
-        memberDto.setPassword( member.getPassword() );
-        memberDto.setEmail( member.getEmail() );
-        memberDto.setTier( member.getTier() );
-
-        return memberDto;
     }
 
     @Override
@@ -84,5 +81,12 @@ public class MemberMapperImpl implements MemberMapper {
         }
 
         return list;
+    }
+
+    @Override
+    public void updateFromDto(MemberDto dto, Member entity) {
+        if ( dto == null ) {
+            return;
+        }
     }
 }
