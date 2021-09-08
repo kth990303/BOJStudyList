@@ -1,4 +1,4 @@
-package algopa.study.member;
+package algopa.study.member.domain;
 
 import com.sun.istack.NotNull;
 import lombok.AccessLevel;

@@ -1,5 +1,8 @@
-package algopa.study.member;
+package algopa.study.member.controller;
 
+import algopa.study.member.dto.MemberDto;
+import algopa.study.member.dto.MemberIdDto;
+import algopa.study.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
@@ -25,7 +28,7 @@ public class MemberController {
     @GetMapping("/")
     public String home(Model model){
         // 현재 엔티티를 반환중
-        List<Member> members = memberService.findAllMembers();
+        List<MemberIdDto> members = memberService.findAllMembers();
         model.addAttribute("members", members);
         return "index";
     }

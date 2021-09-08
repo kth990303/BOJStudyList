@@ -1,6 +1,12 @@
-package algopa.study.member;
+package algopa.study.member.service;
 
 
+import algopa.study.member.domain.Member;
+import algopa.study.member.repository.MemberRepository;
+import algopa.study.member.domain.MemberRole;
+import algopa.study.member.dto.MemberDto;
+import algopa.study.member.dto.MemberIdDto;
+import algopa.study.member.mapper.MemberMapper;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -115,7 +121,7 @@ public class MemberService implements UserDetailsService {
     // index 홈페이지에서 회원번호 출력을 해야 하고, @pathvariable 요구되는 다른 매핑도 존재하므로
     // Entity를 출력하되, readOnly로 대체.
     @Transactional(readOnly = true)
-    public List<Member> findAllMembers(){
+    public List<MemberIdDto> findAllMembers(){
         return (List)memberRepository.findAll();
     }
 

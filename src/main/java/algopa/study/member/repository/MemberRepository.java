@@ -1,5 +1,6 @@
-package algopa.study.member;
+package algopa.study.member.repository;
 
+import algopa.study.member.domain.Member;
 import org.springframework.data.repository.CrudRepository;
 
 

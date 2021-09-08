@@ -1,4 +1,4 @@
-package algopa.study.member;
+package algopa.study.member.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -1,6 +1,6 @@
 package algopa.study.member.config;
 
-import algopa.study.member.MemberService;
+import algopa.study.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;

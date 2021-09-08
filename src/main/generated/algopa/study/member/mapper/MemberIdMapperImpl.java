@@ -1,5 +1,7 @@
-package algopa.study.member;
+package algopa.study.member.mapper;
 
+import algopa.study.member.domain.Member;
+import algopa.study.member.dto.MemberIdDto;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.processing.Generated;
@@ -7,35 +9,37 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2021-09-06T21:17:32+0900",
+    date = "2021-09-08T18:08:02+0900",
     comments = "version: 1.4.2.Final, compiler: javac, environment: Java 11.0.1 (Oracle Corporation)"
 )
 @Component
-public class MemberMapperImpl implements MemberMapper {
+public class MemberIdMapperImpl implements MemberIdMapper {
 
     @Override
-    public MemberDto toDto(Member e) {
+    public MemberIdDto toDto(Member e) {
         if ( e == null ) {
             return null;
         }
 
+        Long id = null;
         String name = null;
         String password = null;
         String email = null;
         String tier = null;
 
+        id = e.getId();
         name = e.getName();
         password = e.getPassword();
         email = e.getEmail();
         tier = e.getTier();
 
-        MemberDto memberDto = new MemberDto( name, tier, email, password );
+        MemberIdDto memberIdDto = new MemberIdDto( id, name, password, email, tier );
 
-        return memberDto;
+        return memberIdDto;
     }
 
     @Override
-    public Member toEntity(MemberDto d) {
+    public Member toEntity(MemberIdDto d) {
         if ( d == null ) {
             return null;
         }
@@ -56,12 +60,12 @@ public class MemberMapperImpl implements MemberMapper {
     }
 
     @Override
-    public List<MemberDto> toDtoList(List<Member> entityList) {
+    public List<MemberIdDto> toDtoList(List<Member> entityList) {
         if ( entityList == null ) {
             return null;
         }
 
-        List<MemberDto> list = new ArrayList<MemberDto>( entityList.size() );
+        List<MemberIdDto> list = new ArrayList<MemberIdDto>( entityList.size() );
         for ( Member member : entityList ) {
             list.add( toDto( member ) );
         }
@@ -70,21 +74,21 @@ public class MemberMapperImpl implements MemberMapper {
     }
 
     @Override
-    public List<Member> toEntityList(List<MemberDto> dtoList) {
+    public List<Member> toEntityList(List<MemberIdDto> dtoList) {
         if ( dtoList == null ) {
             return null;
         }
 
         List<Member> list = new ArrayList<Member>( dtoList.size() );
-        for ( MemberDto memberDto : dtoList ) {
-            list.add( toEntity( memberDto ) );
+        for ( MemberIdDto memberIdDto : dtoList ) {
+            list.add( toEntity( memberIdDto ) );
         }
 
         return list;
     }
 
     @Override
-    public void updateFromDto(MemberDto dto, Member entity) {
+    public void updateFromDto(MemberIdDto dto, Member entity) {
         if ( dto == null ) {
             return;
         }

@@ -1,4 +1,4 @@
-package algopa.study.member;
+package algopa.study.member.dto;
 
 import lombok.*;
 
