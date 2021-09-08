@@ -97,17 +97,7 @@ public class MemberService implements UserDetailsService {
     public Long findIdByName(String name){
         return memberRepository.findByName(name).getId();
     }
-    // 회원 엔티티 찾기
-    // 엔티티를 필요로 하는 매핑에만 최소한으로 사용할 것
-    @Transactional(readOnly = true)
-    public Member findEntityById(Long id){
-        return memberRepository.findById(id).get();
-    }
-    // 엔티티를 필요로 하는 매핑에만 최소한으로 사용할 것
-    @Transactional(readOnly = true)
-    public Member findEntityByName(String name){
-        return memberRepository.findByName(name);
-    }
+
     //회원 삭제
     public void deleteMember(Long id){
         memberRepository.deleteById(id);
@@ -118,14 +108,14 @@ public class MemberService implements UserDetailsService {
         return memberRepository.existsByName(toEntity(memberDto).getName());
     }
     // 전체 회원 조회
-    // index 홈페이지에서 회원번호 출력을 해야 하고, @pathvariable 요구되는 다른 매핑도 존재하므로
-    // Entity를 출력하되, readOnly로 대체.
+    // Id까지 필요하므로 MemberIdDto를 출력.
+    // 클라이언트는 id는 필요없으므로 id를 담는 dto와 담지 않는 dto로 분리함.
     @Transactional(readOnly = true)
     public List<MemberIdDto> findAllMembers(){
         return (List)memberRepository.findAll();
     }
 
-    // MapStruct Mapper Entity <-> Dto
+    // MapStruct Mapper Entity <-> MemberDto
     protected MemberDto toDto(Member member){
         return mapper.toDto(member);
     }
