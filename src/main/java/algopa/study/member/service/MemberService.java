@@ -2,6 +2,7 @@ package algopa.study.member.service;
 
 
 import algopa.study.member.domain.Member;
+import algopa.study.member.mapper.MemberIdMapper;
 import algopa.study.member.repository.MemberRepository;
 import algopa.study.member.domain.MemberRole;
 import algopa.study.member.dto.MemberDto;
@@ -33,6 +34,7 @@ import java.util.*;
 public class MemberService implements UserDetailsService {
     private final MemberRepository memberRepository;
     private final MemberMapper mapper= Mappers.getMapper(MemberMapper.class);
+    private final MemberIdMapper idMapper=Mappers.getMapper(MemberIdMapper.class);
 
     // 스프링 시큐리티 ROLE_ADMIN, ROLE_USER 부여 메소드
     @Override
@@ -112,7 +114,8 @@ public class MemberService implements UserDetailsService {
     // 클라이언트는 id는 필요없으므로 id를 담는 dto와 담지 않는 dto로 분리함.
     @Transactional(readOnly = true)
     public List<MemberIdDto> findAllMembers(){
-        return (List)memberRepository.findAll();
+        List<Member> members = (List)memberRepository.findAll();
+        return idMapper.toDtoList(members);
     }
 
     // MapStruct Mapper Entity <-> MemberDto
@@ -121,5 +124,13 @@ public class MemberService implements UserDetailsService {
     }
     protected Member toEntity(MemberDto memberDto){
         return mapper.toEntity(memberDto);
+    }
+
+    // MapStruct Mapper Entity <-> MemberIdDto
+    protected MemberIdDto toIdDto(Member member){
+        return idMapper.toDto(member);
+    }
+    protected Member toEntity(MemberIdDto memberIdDto){
+        return idMapper.toEntity(memberIdDto);
     }
 }
