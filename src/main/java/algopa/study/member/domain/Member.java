@@ -1,5 +1,6 @@
 package algopa.study.member.domain;
 
+import algopa.study.post.domain.Post;
 import com.sun.istack.NotNull;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -13,6 +14,7 @@ import java.util.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Member {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="member_id")
     private Long id;
 
     @Column(unique=true)
@@ -24,6 +26,9 @@ public class Member {
     private String email;
     @NotNull
     private String tier;
+
+    @OneToMany(mappedBy = "member")
+    private List<Post> posts=new ArrayList<>();
 
     public Member(String name, String tier, String email, String password) {
         this.name = name;
