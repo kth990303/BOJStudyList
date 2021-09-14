@@ -40,9 +40,8 @@ public class PostService {
     public Long enroll(PostDto postDto){
         String loginMemberName = SecurityContextHolder.getContext().getAuthentication().getName();
         Member loginMember = memberRepository.findByName(loginMemberName);
-        MemberDto memberDto = memberMapper.toDto(loginMember);
-        PostNameDto postNameDto=new PostNameDto(postDto.getTitle(), postDto.getContents(), memberDto);
-        return postRepository.save(postNameMapper.toEntity(postNameDto)).getId();
+        Post post=new Post(postDto.getTitle(), postDto.getContents(), loginMember);
+        return postRepository.save(post).getId();
     }
     public PostDto findById(Long id){
         Optional<Post> findPost = postRepository.findById(id);
@@ -62,6 +61,7 @@ public class PostService {
         return findByTitle(title);
     }
     public List<PostIdDto> findAll(){
+        log.info("findAll 호출");
         List<Post> posts = postRepository.findAll();
         return postIdMapper.toDtoList(posts);
     }
