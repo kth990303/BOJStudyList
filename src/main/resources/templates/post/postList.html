@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>게시판 목록</title>
+    <link th:href="@{/css/index.css}" rel="stylesheet" />
+</head>
+<body>
+<h1>소박하지만 그룹입니다</h1>
+<a sec:authorize="isAnonymous()" href="/login" th:href="@{/login}">로그인</a><br>
+<a sec:authorize="isAnonymous()" href="/createMemberForm" th:href="@{/createMemberForm}">회원가입</a>
+<a sec:authorize="isAuthenticated()" href="/login" th:href="@{/logout}">로그아웃</a><br>
+<a sec:authorize="isAuthenticated()">
+    <span sec:authentication="name"></span>님 환영합니다!</a>
+<a sec:authorize="hasRole('ROLE_ADMIN')">이 사이트의 관리자님이십니다.</a>
+<a sec:authorize="isAuthenticated()" href="/myInfo" th:href="@{/myInfo}">내 정보</a><br>
+<a style="text-align: right" th:href="@{/}">홈으로</a>
+<a style="text-align: right" href="/post/addPost" th:href="@{/post/enroll}">글쓰기</a>
+<hr>
+<div class="container">
+    <table width="100%" border="1">
+        <thead>
+        <tr>
+            <th>제목</th>
+            <th>작성자</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="post : ${posts}">
+            <td><a th:text="${post.title}" th:href="@{|/post/${post.id}|}">제목</a></td>
+            <td><a th:text="${post.memberIdDto.name}"></a></td>
+        </tr>
+        </tbody>
+
+    </table>
+</div>
+</body>
+</html>

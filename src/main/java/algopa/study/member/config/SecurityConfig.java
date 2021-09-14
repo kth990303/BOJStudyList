@@ -28,6 +28,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 //.csrf().disable()// 나중에 없애기
                 .authorizeRequests()
                 .antMatchers("/", "/createMemberForm", "/login", "/errorPage", "/index").permitAll()
+                .antMatchers("/post/").permitAll()
                 .antMatchers("/editMember").authenticated()
                 .anyRequest().authenticated()
 

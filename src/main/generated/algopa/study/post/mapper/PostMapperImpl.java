@@ -30,7 +30,7 @@ public class PostMapperImpl implements PostMapper {
         contents = arg0.getContents();
         member = arg0.getMember();
 
-        PostDto postDto = new PostDto( title, contents, member );
+        PostDto postDto = new PostDto( title, contents );
 
         return postDto;
     }
@@ -47,7 +47,6 @@ public class PostMapperImpl implements PostMapper {
 
         title = arg0.getTitle();
         contents = arg0.getContents();
-        member = arg0.getMember();
 
         Post post = new Post( title, contents, member );
 

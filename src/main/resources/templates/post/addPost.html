@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>게시판 글 작성</title>
+    <link th:href="@{/css/index.css}" rel="stylesheet" />
+</head>
+<body>
+<form th:action="@{/post/enroll}" method="post">
+    <table>
+        <tr>
+            <td><label>제목</label></td>
+            <td><input th:class="inputTitle" type="text" name="title" maxlength="200"></td>
+        </tr>
+        <tr>
+            <td><label>내용</label></td>
+            <td><input th:class="inputContents" type="text" name="contents"></td>
+        </tr>
+    </table>
+    <input type="submit" value="등록">
+</form>
+</body>
+</html>

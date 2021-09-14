@@ -9,3 +9,14 @@ h1{
 table{
     text-align: center;
 }
+.inputTitle{
+    width:500px;
+    border-top: 3px solid black;
+    border-left: 3px solid black;
+    border-right: 3px solid black;
+    border-bottom: 3px solid black;
+}
+.inputContents{
+    width:500px;
+    height:2000px;
+}
