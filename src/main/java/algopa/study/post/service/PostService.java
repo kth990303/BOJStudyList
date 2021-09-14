@@ -43,6 +43,10 @@ public class PostService {
         Post post=new Post(postDto.getTitle(), postDto.getContents(), loginMember);
         return postRepository.save(post).getId();
     }
+    public void delete(Long id){
+        postRepository.deleteById(id);
+    }
+    @Transactional(readOnly = true)
     public PostDto findById(Long id){
         Optional<Post> findPost = postRepository.findById(id);
         if(findPost.isEmpty()){
@@ -50,6 +54,7 @@ public class PostService {
         }
         return toDto(findPost.get());
     }
+    @Transactional(readOnly = true)
     public PostNameDto findPostMemberById(Long id){
         Optional<Post> findPost = postRepository.findById(id);
         if(findPost.isEmpty()){
@@ -57,9 +62,11 @@ public class PostService {
         }
         return postNameMapper.toDto(findPost.get());
     }
+    @Transactional(readOnly = true)
     public List<PostDto> findByTitle(String title){
         return findByTitle(title);
     }
+    @Transactional(readOnly = true)
     public List<PostIdDto> findAll(){
         log.info("findAll 호출");
         List<Post> posts = postRepository.findAll();

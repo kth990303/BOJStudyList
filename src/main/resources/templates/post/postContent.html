@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <title th:value="${post.title}"></title>
@@ -9,6 +9,8 @@
 <body>
 <h3><a th:text="${post.title}">제목</a></h3>
 작성자: <a th:text="${post.memberDto.name}">작성자</a>
+<span th:style="${'text-align:right'}" th:if="${post.memberDto.name.equals(#authentication.getName())}">
+    <a th:href="@{|/post/delete/${id}|}">삭제</a></span>
 <hr>
 <pre th:text="${post.contents}">내용</pre>
     <hr>

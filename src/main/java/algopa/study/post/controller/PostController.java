@@ -42,7 +42,14 @@ public class PostController {
     @GetMapping("/{id}")
     public String enterPost(@PathVariable Long id, Model model){
         PostNameDto post = postService.findPostMemberById(id);
+        model.addAttribute("id", id);
         model.addAttribute("post", post);
         return "post/postContent";
+    }
+
+    @GetMapping("/delete/{id}")
+    public String deletePost(@PathVariable Long id){
+        postService.delete(id);
+        return "redirect:/post/";
     }
 }

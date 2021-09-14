@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>로그인 창</title>
+    <link href="../static/css/index.css" th:href="@{/css/index.css}" rel="stylesheet" />
+</head>
+<body>
+<h1>BOJ 건국 스터디그룹 로그인</h1>
+<pre>
+        매주 일요일마다 실전같은 코딩 테스트 훈련은 물론,
+        자신의 실력에 맞는 Division 대회 참가뿐 아니라
+        그룹 사람들과 친목 및 정모까지 함께!
+    </pre>
+<hr>
+<h2 th:style="${'color:red'}">로그인에 실패하셨습니다.</h2>
+<form action="/login" th:action="@{/login}" method="post">
+    <fieldset>
+        <legend>로그인</legend>
+        <table>
+            <tr>
+                <td><label>아이디(백준)</label></td>
+                <td><input type="text" name="username"></td>
+            </tr>
+            <tr>
+                <td><label>비밀번호</label></td>
+                <td><input type="password" name="password"></td>
+            </tr>
+        </table>
+        <input type="submit" value="로그인">
+    </fieldset>
+    회원이 아니신가요? <a th:href="@{/createMemberForm}">회원가입</a>
+</form>
+</body>
+</html>
