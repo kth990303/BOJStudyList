@@ -42,10 +42,6 @@ public class MemberController {
     public String login(){
         return "redirect:/";
     }
-    @PostMapping("/loginFail")
-    public String loginFail(){
-        return "loginFail";
-    }
 
     @GetMapping("/logout")
     public String logoutPage(HttpServletRequest request, HttpServletResponse response) {

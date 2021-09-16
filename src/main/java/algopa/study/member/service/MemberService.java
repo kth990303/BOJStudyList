@@ -65,7 +65,10 @@ public class MemberService implements UserDetailsService {
             memberDto.setPassword(encoder.encode(memberDto.getPassword()));
             member.updateMember(memberDto.getTier(), memberDto.getEmail(), memberDto.getPassword());
         }
-        member.updateMember(memberDto.getTier(), memberDto.getEmail());
+        // 관리자가 아닌, 자기 자신의 정보수정일 경우 비밀번호 변경 가능
+        else{
+            member.updateMember(memberDto.getTier(), memberDto.getEmail());
+        }
         // 관리자가 비밀번호를 변경할 수 없도록 하는 경우는 비밀번호에 null이 들어가므로
         // 아예 변경이 되지 않음.
         // 관리자도 변경이 불가능하도록 하려면 아래 mapper 코드를 이용할 것.
