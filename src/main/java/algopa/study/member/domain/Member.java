@@ -18,13 +18,12 @@ public class Member {
     private Long id;
 
     @Column(unique=true)
-    @NotNull
     private String name;
-    @NotNull
+
     private String password;
-    @NotNull
+
     private String email;
-    @NotNull
+
     private String tier;
 
     @OneToMany(mappedBy = "member")

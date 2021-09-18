@@ -7,10 +7,18 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
+
 @Getter @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class PostDto {
+    @NotEmpty(message = "제목을 입력해주세요")
+    @Size(max = 150)
     private String title;
+
+    @NotEmpty(message = "내용을 입력해주세요")
+    @Size(max = 8000)
     private String contents;
 
     public PostDto(String title, String contents){

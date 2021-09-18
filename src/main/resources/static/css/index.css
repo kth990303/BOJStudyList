@@ -20,3 +20,10 @@ table{
     width:500px;
     height:2000px;
 }
+a.no-uline{
+    color: white;
+}
+a.no-uline:link    { text-decoration:none }
+a.no-uline:visited { text-decoration:none }
+a.no-uline:hover   { text-decoration:underline }
+a.no-uline:active  { text-decoration:none }

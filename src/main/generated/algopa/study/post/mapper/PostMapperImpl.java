@@ -10,25 +10,23 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2021-09-10T23:01:15+0900",
+    date = "2021-09-18T19:16:17+0900",
     comments = "version: 1.4.2.Final, compiler: javac, environment: Java 11.0.1 (Oracle Corporation)"
 )
 @Component
 public class PostMapperImpl implements PostMapper {
 
     @Override
-    public PostDto toDto(Post arg0) {
-        if ( arg0 == null ) {
+    public PostDto toDto(Post e) {
+        if ( e == null ) {
             return null;
         }
 
         String title = null;
         String contents = null;
-        Member member = null;
 
-        title = arg0.getTitle();
-        contents = arg0.getContents();
-        member = arg0.getMember();
+        title = e.getTitle();
+        contents = e.getContents();
 
         PostDto postDto = new PostDto( title, contents );
 
@@ -36,17 +34,18 @@ public class PostMapperImpl implements PostMapper {
     }
 
     @Override
-    public Post toEntity(PostDto arg0) {
-        if ( arg0 == null ) {
+    public Post toEntity(PostDto d) {
+        if ( d == null ) {
             return null;
         }
 
         String title = null;
         String contents = null;
-        Member member = null;
 
-        title = arg0.getTitle();
-        contents = arg0.getContents();
+        title = d.getTitle();
+        contents = d.getContents();
+
+        Member member = null;
 
         Post post = new Post( title, contents, member );
 
@@ -54,13 +53,13 @@ public class PostMapperImpl implements PostMapper {
     }
 
     @Override
-    public List<PostDto> toDtoList(List<Post> arg0) {
-        if ( arg0 == null ) {
+    public List<PostDto> toDtoList(List<Post> entityList) {
+        if ( entityList == null ) {
             return null;
         }
 
-        List<PostDto> list = new ArrayList<PostDto>( arg0.size() );
-        for ( Post post : arg0 ) {
+        List<PostDto> list = new ArrayList<PostDto>( entityList.size() );
+        for ( Post post : entityList ) {
             list.add( toDto( post ) );
         }
 
@@ -68,13 +67,13 @@ public class PostMapperImpl implements PostMapper {
     }
 
     @Override
-    public List<Post> toEntityList(List<PostDto> arg0) {
-        if ( arg0 == null ) {
+    public List<Post> toEntityList(List<PostDto> dtoList) {
+        if ( dtoList == null ) {
             return null;
         }
 
-        List<Post> list = new ArrayList<Post>( arg0.size() );
-        for ( PostDto postDto : arg0 ) {
+        List<Post> list = new ArrayList<Post>( dtoList.size() );
+        for ( PostDto postDto : dtoList ) {
             list.add( toEntity( postDto ) );
         }
 
@@ -82,8 +81,8 @@ public class PostMapperImpl implements PostMapper {
     }
 
     @Override
-    public void updateFromDto(PostDto arg0, Post arg1) {
-        if ( arg0 == null ) {
+    public void updateFromDto(PostDto dto, Post entity) {
+        if ( dto == null ) {
             return;
         }
     }

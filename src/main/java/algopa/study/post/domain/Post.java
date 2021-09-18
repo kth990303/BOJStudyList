@@ -15,10 +15,7 @@ public class Post {
     @Column(name = "post_id")
     private Long id;
 
-    @Column(nullable = false, length = 100)
     private String title;
-
-    @Column(nullable = false)
     private String contents;
 
     @ManyToOne(fetch = FetchType.LAZY)

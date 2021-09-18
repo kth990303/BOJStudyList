@@ -22,13 +22,15 @@
     <table width="100%" border="1">
         <thead>
         <tr>
+            <th>번호</th>
             <th>제목</th>
             <th>작성자</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="post : ${posts}">
-            <td><a th:text="${post.title}" th:href="@{|/post/${post.id}|}">제목</a></td>
+            <td><a th:text="${post.id}"></a></td>
+            <td><a class="no-uline" th:text="${post.title}" th:href="@{|/post/${post.id}|}">제목</a></td>
             <td><a th:text="${post.memberIdDto.name}"></a></td>
         </tr>
         </tbody>
