@@ -28,12 +28,15 @@
             </thead>
             <tbody>
             <tr th:each="member : ${members}">
-                <td th:text="${member.id}"></td>
-                <td th:text="${member.name}"></td>
-                <td th:text="${member.tier}"></td>
+                <td><a th:text="${member.id}"></a></td>
+                <td><a class="no-uline" th:text="${member.name}"
+                       th:href="@{|/user/${member.name}|}"></a></td>
+                <td><a th:text="${member.tier}"></a></td>
                 <td sec:authorize="hasRole('ROLE_ADMIN')">
-                    <a sec:authorize="hasRole('ROLE_ADMIN')" href="/" th:href="@{'edit/'+${member.id}}">수정</a>
-                    <a sec:authorize="hasRole('ROLE_ADMIN')" href="/" th:href="@{'delete/'+${member.id}}">삭제</a>
+                    <a sec:authorize="hasRole('ROLE_ADMIN')" href="/"
+                       th:href="@{'edit/'+${member.id}}">수정</a>
+                    <a sec:authorize="hasRole('ROLE_ADMIN')" href="/"
+                       th:href="@{'delete/'+${member.id}}">삭제</a>
                 </td>
             </tr>
             </tbody>
@@ -42,7 +45,7 @@
     </div>
     <hr>
     <div th:class="boardList">
-       <a th:action="@{/post/}" th:href="@{/post/}">게시판으로 이동하기</a>
+       <a class="no-uline" th:action="@{/post/}" th:href="@{/post/}">게시판으로 이동하기</a>
     </div>
 </body>
 </html>

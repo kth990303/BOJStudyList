@@ -7,6 +7,7 @@
     <link th:href="@{/css/index.css}" rel="stylesheet" />
 </head>
 <body>
+<a style="text-align: right" th:href="@{/}">홈으로</a><br>
 <h1>소박하지만 그룹입니다</h1>
 <a sec:authorize="isAnonymous()" href="/login" th:href="@{/login}">로그인</a><br>
 <a sec:authorize="isAnonymous()" href="/createMemberForm" th:href="@{/createMemberForm}">회원가입</a>
@@ -15,8 +16,7 @@
     <span sec:authentication="name"></span>님 환영합니다!</a>
 <a sec:authorize="hasRole('ROLE_ADMIN')">이 사이트의 관리자님이십니다.</a>
 <a sec:authorize="isAuthenticated()" href="/myInfo" th:href="@{/myInfo}">내 정보</a><br>
-<a style="text-align: right" th:href="@{/}">홈으로</a>
-<a style="text-align: right" href="/post/addPost" th:href="@{/post/enroll}">글쓰기</a>
+<a class="no-uline" href="/post/addPost" th:href="@{/post/enroll}">글쓰기</a>
 <hr>
 <div class="container">
     <table width="100%" border="1">
@@ -34,7 +34,8 @@
             <td><a class="no-uline" th:text="${posts[i].title}"
                    th:href="@{|/post/${posts[i].id}|}">제목</a></td>
             <td><a th:text="${posts[i].views}"></a></td>
-            <td><a th:text="${posts[i].memberIdDto.name}"></a></td>
+            <td><a class="no-uline" th:text="${posts[i].memberIdDto.name}"
+                    th:href="@{|/user/${posts[i].memberIdDto.name}|}"></a></td>
         </tr>
         </tbody>
 

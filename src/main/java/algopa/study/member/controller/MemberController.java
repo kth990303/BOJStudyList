@@ -10,6 +10,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.parameters.P;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -54,7 +55,7 @@ public class MemberController {
     }
 
     @GetMapping("/myInfo")
-    public String MemberInfo(Model model){
+    public String MyInfo(Model model){
         try{
             String name = SecurityContextHolder.getContext().getAuthentication().getName();
 
@@ -68,6 +69,21 @@ public class MemberController {
             return "error/notFound404Page";
         }
         return "myInfo";
+    }
+
+    @GetMapping("/user/{name}")
+    public String MemberInfo(@PathVariable String name, Model model){
+        try{
+            Long id = memberService.findIdByName(name);
+            MemberDto memberDto = memberService.findByName(name);
+
+            model.addAttribute("id", id);
+            model.addAttribute("member", memberDto);
+        } catch(Exception e){
+            e.printStackTrace();
+            return "error/notFound404Page";
+        }
+        return "memberInfo";
     }
 
     @GetMapping("/createMemberForm")

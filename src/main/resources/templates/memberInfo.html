@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>유저 정보</title>
+    <link href="../static/css/index.css" th:href="@{/css/index.css}" rel="stylesheet" />
+</head>
+<body>
+<h1 th:text="|${member.name}님의 정보|"></h1>
+<hr>
+<div class="container">
+    <p th:text="|백준 아이디: ${member.name}|"></p>
+    <p th:text="|현재 티어: ${member.tier}|"></p>
+    <span th:if="${member.name.equals(#authentication.getName())}">
+        <a th:href="@{/logout}"> 로그아웃 </a>
+        <a th:href="@{'edit/'+${id}}"> 정보수정 </a>
+        <a th:href="@{'delete/'+${id}}"> 회원탈퇴 </a>
+    </span>
+</div>
+<hr>
+<div>
+    작성한 게시글/ 댓글 목록은 아직 준비중입니다.
+</div>
+</body>
+</html>
