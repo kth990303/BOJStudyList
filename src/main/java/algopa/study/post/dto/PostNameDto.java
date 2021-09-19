@@ -13,10 +13,12 @@ public class PostNameDto {
     private String title;
     private String contents;
     private MemberDto memberDto;
+    private Long views;
 
-    public PostNameDto(String title, String contents, MemberDto memberDto) {
+    public PostNameDto(String title, String contents, MemberDto memberDto, Long views) {
         this.title = title;
         this.contents = contents;
         this.memberDto=memberDto;
+        this.views=views;
     }
 }

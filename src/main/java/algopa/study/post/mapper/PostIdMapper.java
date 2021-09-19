@@ -34,8 +34,9 @@ public interface PostIdMapper extends GenericMapper<PostIdDto, Post> {
         String title=post.getTitle();
         String contents=post.getContents();
         MemberIdDto memberIdDto=memberIdMapper.toDto(post.getMember());
+        Long views=post.getViews();
 
-        PostIdDto postIdDto=new PostIdDto(id, title, contents, memberIdDto);
+        PostIdDto postIdDto=new PostIdDto(id, title, contents, memberIdDto, views);
         return postIdDto;
     }
 }

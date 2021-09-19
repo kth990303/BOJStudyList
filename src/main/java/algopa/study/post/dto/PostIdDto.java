@@ -16,11 +16,13 @@ public class PostIdDto {
     private String title;
     private String contents;
     private MemberIdDto memberIdDto;
+    private Long views;
 
-    public PostIdDto(Long id, String title, String contents, MemberIdDto memberIdDto){
+    public PostIdDto(Long id, String title, String contents, MemberIdDto memberIdDto, Long views){
         this.id=id;
         this.title=title;
         this.contents=contents;
         this.memberIdDto=memberIdDto;
+        this.views=views;
     }
 }

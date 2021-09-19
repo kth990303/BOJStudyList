@@ -24,14 +24,17 @@
         <tr>
             <th>번호</th>
             <th>제목</th>
+            <th>조회수</th>
             <th>작성자</th>
         </tr>
         </thead>
         <tbody>
-        <tr th:each="post : ${posts}">
-            <td><a th:text="${post.id}"></a></td>
-            <td><a class="no-uline" th:text="${post.title}" th:href="@{|/post/${post.id}|}">제목</a></td>
-            <td><a th:text="${post.memberIdDto.name}"></a></td>
+        <tr th:each="i : ${#numbers.sequence(posts.size() - 1, 0, -1)}">
+            <td><a th:text="${posts[i].id}"></a></td>
+            <td><a class="no-uline" th:text="${posts[i].title}"
+                   th:href="@{|/post/${posts[i].id}|}">제목</a></td>
+            <td><a th:text="${posts[i].views}"></a></td>
+            <td><a th:text="${posts[i].memberIdDto.name}"></a></td>
         </tr>
         </tbody>
 

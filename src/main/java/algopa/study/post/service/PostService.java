@@ -41,6 +41,7 @@ public class PostService {
         String loginMemberName = SecurityContextHolder.getContext().getAuthentication().getName();
         Member loginMember = memberRepository.findByName(loginMemberName);
         Post post=new Post(postDto.getTitle(), postDto.getContents(), loginMember);
+        updateViews(post, -1L);
         return postRepository.save(post).getId();
     }
     public void delete(Long id){
@@ -54,12 +55,14 @@ public class PostService {
         }
         return toDto(findPost.get());
     }
-    @Transactional(readOnly = true)
-    public PostNameDto findPostMemberById(Long id){
+    // postNameDto: 제목을 클릭하면 내용을 보여주는 DTO.
+    public PostNameDto findPostNameDtoById(Long id){
         Optional<Post> findPost = postRepository.findById(id);
         if(findPost.isEmpty()){
             throw new NoSuchElementException("게시글이 존재하지 않습니다.");
         }
+        // 따라서 조회수를 증가하는 처리를 진행합니다.
+        updateViews(findPost.get(), findPost.get().getViews());
         return postNameMapper.toDto(findPost.get());
     }
     @Transactional(readOnly = true)
@@ -71,6 +74,20 @@ public class PostService {
         log.info("findAll 호출");
         List<Post> posts = postRepository.findAll();
         return postIdMapper.toDtoList(posts);
+    }
+
+    // 조회수 처리_ private
+    private Long updateViews(Post post, Long views){
+        // 처음 등록 시
+        if(views == -1L){
+            post.updateViews(views);
+            return post.getViews();
+        }
+        if(!SecurityContextHolder.getContext().getAuthentication().getName().
+                equals(post.getMember().getName())){
+            post.updateViews(views);
+        }
+        return post.getViews();
     }
 
     // DTO <-> Entity

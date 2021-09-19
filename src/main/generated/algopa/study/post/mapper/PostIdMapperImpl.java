@@ -9,20 +9,20 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2021-09-18T19:16:18+0900",
+    date = "2021-09-19T10:40:05+0900",
     comments = "version: 1.4.2.Final, compiler: javac, environment: Java 11.0.1 (Oracle Corporation)"
 )
 @Component
 public class PostIdMapperImpl implements PostIdMapper {
 
     @Override
-    public List<PostIdDto> toDtoList(List<Post> entityList) {
-        if ( entityList == null ) {
+    public List<PostIdDto> toDtoList(List<Post> arg0) {
+        if ( arg0 == null ) {
             return null;
         }
 
-        List<PostIdDto> list = new ArrayList<PostIdDto>( entityList.size() );
-        for ( Post post : entityList ) {
+        List<PostIdDto> list = new ArrayList<PostIdDto>( arg0.size() );
+        for ( Post post : arg0 ) {
             list.add( toDto( post ) );
         }
 
@@ -30,13 +30,13 @@ public class PostIdMapperImpl implements PostIdMapper {
     }
 
     @Override
-    public List<Post> toEntityList(List<PostIdDto> dtoList) {
-        if ( dtoList == null ) {
+    public List<Post> toEntityList(List<PostIdDto> arg0) {
+        if ( arg0 == null ) {
             return null;
         }
 
-        List<Post> list = new ArrayList<Post>( dtoList.size() );
-        for ( PostIdDto postIdDto : dtoList ) {
+        List<Post> list = new ArrayList<Post>( arg0.size() );
+        for ( PostIdDto postIdDto : arg0 ) {
             list.add( toEntity( postIdDto ) );
         }
 
@@ -44,8 +44,8 @@ public class PostIdMapperImpl implements PostIdMapper {
     }
 
     @Override
-    public void updateFromDto(PostIdDto dto, Post entity) {
-        if ( dto == null ) {
+    public void updateFromDto(PostIdDto arg0, Post arg1) {
+        if ( arg0 == null ) {
             return;
         }
     }

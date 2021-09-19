@@ -11,6 +11,8 @@
 작성자: <a th:text="${post.memberDto.name}">작성자</a>
 <span th:style="${'text-align:right'}" th:if="${post.memberDto.name.equals(#authentication.getName())}">
     <a th:href="@{|/post/delete/${id}|}">삭제</a></span>
+<br>
+<th th:text="|조회수: ${post.views}|">0</th>
 <hr>
 <pre th:text="${post.contents}">내용</pre>
     <hr>

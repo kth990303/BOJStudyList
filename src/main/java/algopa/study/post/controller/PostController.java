@@ -41,7 +41,7 @@ public class PostController {
     }
     @GetMapping("/{id}")
     public String enterPost(@PathVariable Long id, Model model){
-        PostNameDto post = postService.findPostMemberById(id);
+        PostNameDto post = postService.findPostNameDtoById(id);
         model.addAttribute("id", id);
         model.addAttribute("post", post);
         return "post/postContent";

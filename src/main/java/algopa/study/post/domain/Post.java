@@ -22,6 +22,8 @@ public class Post {
     @JoinColumn(name = "member_id")
     private Member member;
 
+    private Long views;
+
     public Post(String title, String contents, Member member) {
         this.title=title;
         this.contents=contents;
@@ -32,5 +34,9 @@ public class Post {
     public void updatePost(String title, String contents){
         this.title=title;
         this.contents=contents;
+    }
+
+    public void updateViews(Long views){
+        this.views=views+1;
     }
 }
