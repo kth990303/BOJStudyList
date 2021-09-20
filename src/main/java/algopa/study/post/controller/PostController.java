@@ -6,12 +6,10 @@ import algopa.study.post.dto.PostNameDto;
 import algopa.study.post.service.PostService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -45,6 +43,18 @@ public class PostController {
         model.addAttribute("id", id);
         model.addAttribute("post", post);
         return "post/postContent";
+    }
+    @GetMapping("/edit/{id}")
+    public String editPost(@PathVariable Long id, Model model){
+        PostDto postDto = postService.findById(id);
+        model.addAttribute("id", id);
+        model.addAttribute("post", postDto);
+        return "post/editPost";
+    }
+    @PostMapping("/edit/{id}")
+    public String edit(PostDto postDto, @PathVariable Long id){
+        postService.edit(postDto, id);
+        return "redirect:/post/";
     }
 
     @GetMapping("/delete/{id}")

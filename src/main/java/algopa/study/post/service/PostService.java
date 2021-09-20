@@ -47,6 +47,16 @@ public class PostService {
     public void delete(Long id){
         postRepository.deleteById(id);
     }
+    public void edit(PostDto postDto, Long id){
+        Optional<Post> post = postRepository.findById(id);
+        try{
+            if(post.isEmpty())
+                throw new NoSuchElementException();
+            post.get().updatePost(postDto.getTitle(), postDto.getContents());
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }
     @Transactional(readOnly = true)
     public PostDto findById(Long id){
         Optional<Post> findPost = postRepository.findById(id);

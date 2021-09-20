@@ -8,11 +8,12 @@
 </head>
 <body>
 <h3><a th:text="${post.title}">제목</a></h3>
-작성자: <a th:text="${post.memberDto.name}">작성자</a>
+작성자: <a th:text="${post.memberDto.name}">작성자</a><br>
+<th th:text="|조회수: ${post.views}|">0</th><br>
+<span th:style="${'text-align:right'}" th:if="${post.memberDto.name.equals(#authentication.getName())}">
+    <a th:href="@{|/post/edit/${id}|}">수정</a></span>
 <span th:style="${'text-align:right'}" th:if="${post.memberDto.name.equals(#authentication.getName())}">
     <a th:href="@{|/post/delete/${id}|}">삭제</a></span>
-<br>
-<th th:text="|조회수: ${post.views}|">0</th>
 <hr>
 <pre th:text="${post.contents}">내용</pre>
     <hr>
