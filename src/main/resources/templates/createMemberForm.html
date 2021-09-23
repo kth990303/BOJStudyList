@@ -19,22 +19,22 @@
             <legend>바로 회원가입 해야겠다!</legend>
             <table>
                 <tr>
-                    <td><label th:for="name">백준 아이디</label></td>
+                    <td><label th:text="#{member.label.name}" th:for="name">백준 아이디</label></td>
                     <td><input type="text" name="name"
                                placeholder="(필수)백준 아이디"></td>
                 </tr>
                 <tr>
-                    <td><label th:for="tier">SolvedAC 티어</label></td>
+                    <td><label th:text="#{member.label.tier}" th:for="tier">SolvedAC 티어</label></td>
                     <td><input type="text" name="tier"
                                placeholder="SolvedAC 티어"></td>
                 </tr>
                 <tr>
-                    <td><label>이메일</label></td>
+                    <td><label th:text="#{member.label.email}">이메일</label></td>
                     <td><input type="email" name="email"
                                placeholder="인증수단 이메일"></td>
                 </tr>
                 <tr>
-                    <td><label>비밀번호</label></td>
+                    <td><label th:text="#{member.label.password}">비밀번호</label></td>
                     <td><input type="password" name="password"
                                placeholder="(필수)비밀번호 입력"></td>
                 </tr>

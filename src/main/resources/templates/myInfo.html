@@ -14,8 +14,10 @@
 <div class="container">
     <p th:text="|현재 티어: ${member.tier}|"></p>
     <a sec:authorize="isAuthenticated()" th:href="@{/logout}">로그아웃</a><br>
-    <a sec:authorize="isAuthenticated()" th:href="@{'edit/'+${id}}">정보수정</a><br>
-    <a sec:authorize="isAuthenticated()" th:href="@{'delete/'+${id}}">회원탈퇴</a><br>
+    <a sec:authorize="isAuthenticated()"
+       th:text="#{member.page.edit}" th:href="@{'edit/'+${id}}">정보수정</a><br>
+    <a sec:authorize="isAuthenticated()"
+       th:text="#{member.page.secession}" th:href="@{'delete/'+${id}}">회원탈퇴</a><br>
 </div>
 </body>
 </html>

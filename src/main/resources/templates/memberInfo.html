@@ -13,9 +13,9 @@
     <p th:text="|백준 아이디: ${member.name}|"></p>
     <p th:text="|현재 티어: ${member.tier}|"></p>
     <span th:if="${member.name.equals(#authentication.getName())}">
-        <a th:href="@{/logout}"> 로그아웃 </a>
-        <a th:href="@{'edit/'+${id}}"> 정보수정 </a>
-        <a th:href="@{'delete/'+${id}}"> 회원탈퇴 </a>
+        <a th:text="#{member.page.logout}" th:href="@{/logout}"> 로그아웃 </a>
+        <a th:text="#{member.page.edit}" th:href="@{'edit/'+${id}}"> 정보수정 </a>
+        <a th:text="#{member.page.secession}" th:href="@{'delete/'+${id}}"> 회원탈퇴 </a>
     </span>
 </div>
 <hr>

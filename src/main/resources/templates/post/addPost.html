@@ -10,11 +10,11 @@
 <form th:action="@{/post/enroll}" method="post">
     <table>
         <tr>
-            <td><label>제목</label></td>
+            <td><label th:text="#{post.label.title}">제목</label></td>
             <td><input th:style="${'width:500px'}" type="text" name="title" maxlength="200"></td>
         </tr>
         <tr>
-            <td><label>내용</label></td>
+            <td><label th:text="#{post.label.contents}">내용</label></td>
             <td><textarea th:style="${'width:500px; height:400px'}" name="contents"
                           th:maxlength="2000"></textarea></td>
         </tr>

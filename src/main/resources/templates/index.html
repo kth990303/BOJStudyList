@@ -7,10 +7,13 @@
     <link href="../static/css/index.css" th:href="@{/css/index.css}" rel="stylesheet" />
 </head>
 <body>
-    <h1>소박하지만 그룹입니다</h1>
-    <a sec:authorize="isAnonymous()" href="/login" th:href="@{/login}">로그인</a><br>
-    <a sec:authorize="isAnonymous()" href="/createMemberForm" th:href="@{/createMemberForm}">회원가입</a>
-    <a sec:authorize="isAuthenticated()" href="/login" th:href="@{/logout}">로그아웃</a><br>
+    <h1 th:text="#{main.title}">소박하지만 그룹입니다</h1>
+    <a sec:authorize="isAnonymous()" href="/login"
+       th:text="#{member.page.login}" th:href="@{/login}">로그인</a><br>
+    <a sec:authorize="isAnonymous()" href="/createMemberForm"
+       th:text="#{member.page.add}" th:href="@{/createMemberForm}">회원가입</a>
+    <a sec:authorize="isAuthenticated()" href="/login"
+       th:text="#{member.page.logout}" th:href="@{/logout}">로그아웃</a><br>
     <a sec:authorize="isAuthenticated()">
         <span sec:authentication="name"></span>님 환영합니다!</a>
     <a sec:authorize="hasRole('ROLE_ADMIN')">이 사이트의 관리자님이십니다.</a>
@@ -34,9 +37,11 @@
                 <td><a th:text="${member.tier}"></a></td>
                 <td sec:authorize="hasRole('ROLE_ADMIN')">
                     <a sec:authorize="hasRole('ROLE_ADMIN')" href="/"
-                       th:href="@{'edit/'+${member.id}}">수정</a>
+                       th:href="@{'edit/'+${member.id}}"
+                        th:text="#{member.page.edit}">수정</a>
                     <a sec:authorize="hasRole('ROLE_ADMIN')" href="/"
-                       th:href="@{'delete/'+${member.id}}">삭제</a>
+                       th:href="@{'delete/'+${member.id}}"
+                    th:text="#{member.page.secession}">삭제</a>
                 </td>
             </tr>
             </tbody>
