@@ -9,18 +9,22 @@
 <body>
 <h1>회원정보를 수정합니다.</h1>
 <hr>
-<form th:action="@{'/edit/'+${id}}" method="post">
+<form th:action="@{'/edit/'+${id}}" th:object="${member}" method="post">
     <fieldset>
         <table>
             <tr>
-                <td><label th:text="#{member.label.name}">아이디</label></td>
-                <td><input type="text" name="name" th:value="${memberDto.name}" readonly></td>
-                <td><label th:text="#{member.label.tier}">SolvedAC 티어</label></td>
-                <td><input type="text" name="tier"></td>
-                <td><label th:text="#{member.label.email}">이메일</label></td>
-                <td><input type="email" name="email"></td>
-                <td><label th:text="#{member.label.password}">비밀번호</label></td>
-                <td><input type="password" name="password"></td>
+                <td><label th:text="#{member.label.name}" th:for="name">아이디</label></td>
+                <td><input type="text" name="name" th:value="${member.name}"
+                           th:field="${member.name}" disabled></td>
+
+                <td><label th:text="#{member.label.tier}" th:for="tier">SolvedAC 티어</label></td>
+                <td><input type="text" name="tier" th:field="${member.tier}"></td>
+
+                <td><label th:text="#{member.label.email}" th:for="email">이메일</label></td>
+                <td><input type="email" name="email" th:field="${member.email}"></td>
+
+                <td><label th:text="#{member.label.password}" th:for="password">비밀번호</label></td>
+                <td><input type="password" name="password" th:field="${member.password}"></td>
             </tr>
         </table>
     </fieldset>

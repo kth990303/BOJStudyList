@@ -28,12 +28,12 @@ public class PostController {
     }
 
     @GetMapping("/enroll")
-    public String enrollPost(){
+    public String enrollPost(@ModelAttribute("post") PostDto postDto){
         log.debug("enrollPost 호출");
         return "post/addPost";
     }
     @PostMapping("/enroll")
-    public String enroll(PostDto postDto){
+    public String enroll(@ModelAttribute("post") PostDto postDto){
         postService.enroll(postDto);
         return "redirect:/post/";
     }
@@ -52,7 +52,7 @@ public class PostController {
         return "post/editPost";
     }
     @PostMapping("/edit/{id}")
-    public String edit(PostDto postDto, @PathVariable Long id){
+    public String edit(@ModelAttribute("post") PostDto postDto, @PathVariable Long id){
         postService.edit(postDto, id);
         return "redirect:/post/";
     }

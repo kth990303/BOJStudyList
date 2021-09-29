@@ -87,12 +87,12 @@ public class MemberController {
     }
 
     @GetMapping("/createMemberForm")
-    public String createForm(Model model, MemberDto memberDto) {
+    public String createForm(@ModelAttribute("member") MemberDto memberDto) {
         return "createMemberForm";
     }
 
     @PostMapping("/createMemberForm")
-    public String create(MemberDto memberDto){
+    public String create(@ModelAttribute("member") MemberDto memberDto){
         Long memberId = memberService.join(memberDto);
         if(memberId==-1L)
             return "error/duplicateErrorPage";
@@ -115,12 +115,12 @@ public class MemberController {
             return "error/notFound404Page";
         }
         model.addAttribute("id", id);
-        model.addAttribute("memberDto", memberDto);
+        model.addAttribute("member", memberDto);
         return "editMember";
     }
 
     @PostMapping("/edit/{id}")
-    public String edit(@PathVariable Long id, MemberDto memberDto){
+    public String edit(@PathVariable Long id, @ModelAttribute("member") MemberDto memberDto){
         log.info("MemberName: {}", memberDto.getName());
         memberService.edit(id, memberDto);
         return "redirect:/";
