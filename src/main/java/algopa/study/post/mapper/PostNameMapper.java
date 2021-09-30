@@ -5,9 +5,13 @@ import algopa.study.member.domain.Member;
 import algopa.study.member.dto.MemberDto;
 import algopa.study.member.mapper.MemberMapper;
 import algopa.study.post.domain.Post;
+import algopa.study.post.domain.PostPeriod;
 import algopa.study.post.dto.PostNameDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Mapper(componentModel = "spring")
 public interface PostNameMapper extends GenericMapper<PostNameDto, Post> {
@@ -20,8 +24,9 @@ public interface PostNameMapper extends GenericMapper<PostNameDto, Post> {
         String title = postNameDto.getTitle();
         String contents = postNameDto.getContents();
         Member member = memberMapper.toEntity(postNameDto.getMemberDto());
+        PostPeriod postPeriod = postNameDto.getPostPeriod();
 
-        Post post = new Post( title, contents, member );
+        Post post = new Post( title, contents, member, postPeriod );
         return post;
     }
 
@@ -33,8 +38,9 @@ public interface PostNameMapper extends GenericMapper<PostNameDto, Post> {
         String contents=post.getContents();
         MemberDto memberDto=memberMapper.toDto(post.getMember());
         Long views=post.getViews();
+        PostPeriod postPeriod=post.getPostPeriod();
 
-        PostNameDto postNameDto=new PostNameDto(title, contents, memberDto, views);
+        PostNameDto postNameDto=new PostNameDto(title, contents, memberDto, views, postPeriod);
         return postNameDto;
     }
 }

@@ -1,12 +1,10 @@
 package algopa.study.post.service;
 
 import algopa.study.member.domain.Member;
-import algopa.study.member.dto.MemberDto;
-import algopa.study.member.dto.MemberIdDto;
-import algopa.study.member.mapper.MemberIdMapper;
 import algopa.study.member.mapper.MemberMapper;
 import algopa.study.member.repository.MemberRepository;
 import algopa.study.post.domain.Post;
+import algopa.study.post.domain.PostPeriod;
 import algopa.study.post.dto.PostDto;
 import algopa.study.post.dto.PostIdDto;
 import algopa.study.post.dto.PostNameDto;
@@ -21,6 +19,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -40,7 +40,14 @@ public class PostService {
     public Long enroll(PostDto postDto){
         String loginMemberName = SecurityContextHolder.getContext().getAuthentication().getName();
         Member loginMember = memberRepository.findByName(loginMemberName);
-        Post post=new Post(postDto.getTitle(), postDto.getContents(), loginMember);
+
+        // 첫 생성일 땐 생성일자와 수정일자 동일하게
+        LocalDateTime now=LocalDateTime.now();
+        String creationDate = now.format(DateTimeFormatter.ofPattern("yyyy/MM/dd kk:mm:ss"));
+
+        PostPeriod postPeriod = new PostPeriod(creationDate, creationDate);
+
+        Post post=new Post(postDto.getTitle(), postDto.getContents(), loginMember, postPeriod);
         updateViews(post, -1L);
         return postRepository.save(post).getId();
     }
@@ -52,7 +59,13 @@ public class PostService {
         try{
             if(post.isEmpty())
                 throw new NoSuchElementException();
-            post.get().updatePost(postDto.getTitle(), postDto.getContents());
+            // 수정일자 변경
+            String creationDate = post.get().getPostPeriod().getCreationDate();
+            LocalDateTime now=LocalDateTime.now();
+            String editDate = now.format(DateTimeFormatter.ofPattern("yyyy/MM/dd kk:mm:ss"));
+            PostPeriod postPeriod = new PostPeriod(creationDate, editDate);
+
+            post.get().updatePost(postDto.getTitle(), postDto.getContents(), postPeriod);
         } catch (Exception e){
             e.printStackTrace();
         }

@@ -18,22 +18,27 @@ public class Post {
     private String title;
     private String contents;
 
+    @Embedded
+    private PostPeriod postPeriod;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
 
     private Long views;
 
-    public Post(String title, String contents, Member member) {
+    public Post(String title, String contents, Member member, PostPeriod postPeriod) {
         this.title=title;
         this.contents=contents;
         this.member=member;
+        this.postPeriod=postPeriod;
     }
 
     // update Entity
-    public void updatePost(String title, String contents){
+    public void updatePost(String title, String contents, PostPeriod postPeriod){
         this.title=title;
         this.contents=contents;
+        this.postPeriod=postPeriod;
     }
 
     public void updateViews(Long views){

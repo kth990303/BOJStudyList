@@ -29,6 +29,7 @@
             <th>제목</th>
             <th>조회수</th>
             <th>작성자</th>
+            <th>작성일자</th>
         </tr>
         </thead>
         <tbody>
@@ -39,6 +40,7 @@
             <td><a th:text="${posts[i].views}"></a></td>
             <td><a class="no-uline" th:text="${posts[i].memberIdDto.name}"
                     th:href="@{|/user/${posts[i].memberIdDto.name}|}"></a></td>
+            <td><a th:text="${posts[i].postPeriod.creationDate}"></a></td>
         </tr>
         </tbody>
 
