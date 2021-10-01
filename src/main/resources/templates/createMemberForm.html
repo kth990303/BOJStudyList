@@ -25,8 +25,43 @@
                 </tr>
                 <tr>
                     <td><label th:text="#{member.label.tier}" th:for="tier">SolvedAC 티어</label></td>
-                    <td><input type="text" name="tier" th:field="${member.tier}"
-                               placeholder="SolvedAC 티어"></td>
+<!--                    <td><input type="text" name="tier" th:field="${member.tier}"-->
+<!--                               placeholder="SolvedAC 티어"></td>-->
+                    <td>
+                        <select style="-ms-box-sizing:content-box;" th:field="${member.tier}">
+                            <option value="없음">없음</option>
+                            <option value="Bronze V">Bronze V</option>
+                            <option value="Bronze IV">Bronze IV</option>
+                            <option value="Bronze III">Bronze III</option>
+                            <option value="Bronze II">Bronze II</option>
+                            <option value="Bronze I">Bronze I</option>
+                            <option value="Silver V">Silver V</option>
+                            <option value="Silver IV">Silver IV</option>
+                            <option value="Silver III">Silver III</option>
+                            <option value="Silver II">Silver II</option>
+                            <option value="Silver I">Silver I</option>
+                            <option value="Gold V">Gold V</option>
+                            <option value="Gold IV">Gold IV</option>
+                            <option value="Gold III">Gold III</option>
+                            <option value="Gold II">Gold II</option>
+                            <option value="Gold I">Gold I</option>
+                            <option value="Platinum V">Platinum V</option>
+                            <option value="Platinum IV">Platinum IV</option>
+                            <option value="Platinum III">Platinum III</option>
+                            <option value="Platinum II">Platinum II</option>
+                            <option value="Platinum I">Platinum I</option>
+                            <option value="Diamond V">Diamond V</option>
+                            <option value="Diamond IV">Diamond IV</option>
+                            <option value="Diamond III">Diamond III</option>
+                            <option value="Diamond II">Diamond II</option>
+                            <option value="Diamond I">Diamond I</option>
+                            <option value="Ruby V">Ruby V</option>
+                            <option value="Ruby IV">Ruby IV</option>
+                            <option value="Ruby III">Ruby III</option>
+                            <option value="Ruby II">Ruby II</option>
+                            <option value="Ruby I">Ruby I</option>
+                        </select>
+                    </td>
                 </tr>
                 <tr>
                     <td><label th:text="#{member.label.email}" th:for="email">이메일</label></td>
