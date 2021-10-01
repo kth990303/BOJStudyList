@@ -54,7 +54,7 @@ public class PostController {
     @PostMapping("/edit/{id}")
     public String edit(@ModelAttribute("post") PostDto postDto, @PathVariable Long id){
         postService.edit(postDto, id);
-        return "redirect:/post/";
+        return "redirect:/post/{id}";
     }
 
     @GetMapping("/delete/{id}")

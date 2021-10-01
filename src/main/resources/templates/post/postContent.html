@@ -7,6 +7,7 @@
     <link th:href="@{/css/index.css}" rel="stylesheet" />
 </head>
 <body>
+<a href="/post" th:href="@{/post/}">목록으로 이동</a><br>
 <h3><a th:text="${post.title}">제목</a></h3>
 작성자: <a th:text="${post.memberDto.name}">작성자</a><br>
 <th th:text="|조회수: ${post.views}|">0</th><br><br>
@@ -18,6 +19,14 @@
     <a th:href="@{|/post/delete/${id}|}">삭제</a></span>
 <hr>
 <pre th:text="${post.contents}">내용</pre>
+<span>
+    <a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{|/post/edit/${id}|}">
+        관리자 권한으로 수정</a>
+</span>
+<span>
+    <a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{|/post/delete/${id}|}">
+        관리자 권한으로 삭제</a><br>
+</span>
     <hr>
     <p>댓글 기능은 준비중입니다.</p>
 </form>
