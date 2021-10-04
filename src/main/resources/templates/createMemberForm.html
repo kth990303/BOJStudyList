@@ -20,8 +20,11 @@
             <table>
                 <tr>
                     <td><label th:text="#{member.label.name}" th:for="name">백준 아이디</label></td>
-                    <td><input type="text" name="name" th:field="${member.name}"
+                    <td><input type="text" name="name" th:field="${member.name}" th:errorclass="field-error"
                                placeholder="(필수)백준 아이디"></td>
+                    <div class="field-error" th:errors="${member.name}">
+                        아이디 오류
+                    </div>
                 </tr>
                 <tr>
                     <td><label th:text="#{member.label.tier}" th:for="tier">SolvedAC 티어</label></td>
@@ -65,13 +68,19 @@
                 </tr>
                 <tr>
                     <td><label th:text="#{member.label.email}" th:for="email">이메일</label></td>
-                    <td><input type="email" name="email" th:field="${member.email}"
+                    <td><input type="email" name="email" th:field="${member.email}" th:errorclass="field-error"
                                placeholder="인증수단 이메일"></td>
+                    <div class="field-error" th:errors="${member.email}">
+                        이메일 오류
+                    </div>
                 </tr>
                 <tr>
                     <td><label th:text="#{member.label.password}" th:for="password">비밀번호</label></td>
-                    <td><input type="password" name="password" th:field="${member.password}"
+                    <td><input type="password" name="password" th:field="${member.password}" th:errorclass="field-error"
                                placeholder="(필수)비밀번호 입력"></td>
+                    <div class="field-error" th:errors="${member.password}">
+                        비밀번호 오류
+                    </div>
                 </tr>
             </table>
             <input type="submit" value="회원가입">

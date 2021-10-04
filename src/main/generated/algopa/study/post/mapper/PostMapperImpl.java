@@ -2,6 +2,7 @@ package algopa.study.post.mapper;
 
 import algopa.study.member.domain.Member;
 import algopa.study.post.domain.Post;
+import algopa.study.post.domain.PostPeriod;
 import algopa.study.post.dto.PostDto;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +11,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2021-09-18T19:16:17+0900",
+    date = "2021-10-04T18:11:22+0900",
     comments = "version: 1.4.2.Final, compiler: javac, environment: Java 11.0.1 (Oracle Corporation)"
 )
 @Component
@@ -46,8 +47,9 @@ public class PostMapperImpl implements PostMapper {
         contents = d.getContents();
 
         Member member = null;
+        PostPeriod postPeriod = null;
 
-        Post post = new Post( title, contents, member );
+        Post post = new Post( title, contents, member, postPeriod );
 
         return post;
     }

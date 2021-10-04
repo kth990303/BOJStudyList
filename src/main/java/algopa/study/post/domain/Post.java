@@ -16,6 +16,8 @@ public class Post {
     private Long id;
 
     private String title;
+
+    @Column(columnDefinition = "LONGTEXT")
     private String contents;
 
     @Embedded

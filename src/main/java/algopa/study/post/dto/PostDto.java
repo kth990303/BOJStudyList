@@ -14,11 +14,11 @@ import javax.validation.constraints.Size;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class PostDto {
     @NotEmpty(message = "제목을 입력해주세요")
-    @Size(max = 150)
+    @Size(max = 150, message = "150자 이내로 입력해주세요.")
     private String title;
 
     @NotEmpty(message = "내용을 입력해주세요")
-    @Size(max = 8000)
+    @Size(max = 2000, message = "2000자 이내로 입력해주세요.")
     private String contents;
 
     public PostDto(String title, String contents){

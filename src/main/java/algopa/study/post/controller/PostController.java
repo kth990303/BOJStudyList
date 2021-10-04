@@ -9,8 +9,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.naming.Binding;
 import java.util.List;
 
 @Controller
@@ -33,7 +36,11 @@ public class PostController {
         return "post/addPost";
     }
     @PostMapping("/enroll")
-    public String enroll(@ModelAttribute("post") PostDto postDto){
+    public String enroll(@Validated @ModelAttribute("post") PostDto postDto,
+                         BindingResult bindingResult){
+        if(bindingResult.hasErrors()){
+            return "post/addPost";
+        }
         postService.enroll(postDto);
         return "redirect:/post/";
     }
@@ -52,7 +59,11 @@ public class PostController {
         return "post/editPost";
     }
     @PostMapping("/edit/{id}")
-    public String edit(@ModelAttribute("post") PostDto postDto, @PathVariable Long id){
+    public String edit(@Validated @ModelAttribute("post") PostDto postDto,
+                       BindingResult bindingResult, @PathVariable Long id){
+        if(bindingResult.hasErrors()){
+            return "post/editPost";
+        }
         postService.edit(postDto, id);
         return "redirect:/post/{id}";
     }

@@ -9,20 +9,20 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2021-09-30T22:34:47+0900",
+    date = "2021-10-04T18:11:22+0900",
     comments = "version: 1.4.2.Final, compiler: javac, environment: Java 11.0.1 (Oracle Corporation)"
 )
 @Component
 public class PostNameMapperImpl implements PostNameMapper {
 
     @Override
-    public List<PostNameDto> toDtoList(List<Post> arg0) {
-        if ( arg0 == null ) {
+    public List<PostNameDto> toDtoList(List<Post> entityList) {
+        if ( entityList == null ) {
             return null;
         }
 
-        List<PostNameDto> list = new ArrayList<PostNameDto>( arg0.size() );
-        for ( Post post : arg0 ) {
+        List<PostNameDto> list = new ArrayList<PostNameDto>( entityList.size() );
+        for ( Post post : entityList ) {
             list.add( toDto( post ) );
         }
 
@@ -30,13 +30,13 @@ public class PostNameMapperImpl implements PostNameMapper {
     }
 
     @Override
-    public List<Post> toEntityList(List<PostNameDto> arg0) {
-        if ( arg0 == null ) {
+    public List<Post> toEntityList(List<PostNameDto> dtoList) {
+        if ( dtoList == null ) {
             return null;
         }
 
-        List<Post> list = new ArrayList<Post>( arg0.size() );
-        for ( PostNameDto postNameDto : arg0 ) {
+        List<Post> list = new ArrayList<Post>( dtoList.size() );
+        for ( PostNameDto postNameDto : dtoList ) {
             list.add( toEntity( postNameDto ) );
         }
 
@@ -44,8 +44,8 @@ public class PostNameMapperImpl implements PostNameMapper {
     }
 
     @Override
-    public void updateFromDto(PostNameDto arg0, Post arg1) {
-        if ( arg0 == null ) {
+    public void updateFromDto(PostNameDto dto, Post entity) {
+        if ( dto == null ) {
             return;
         }
     }

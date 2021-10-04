@@ -12,12 +12,20 @@
         <tr>
             <td><label th:for="title" th:text="#{post.label.title}">제목</label></td>
             <td><input th:style="${'width:500px'}" type="text" th:field="*{title}"
-                       maxlength="200" th:value="${post.title}"></td>
+                       maxlength="150" th:value="${post.title}"
+                       th:errorclass="field-error"></td>
+            <div class="field-error" th:errors="*{title}">
+                제목 오류
+            </div>
         </tr>
         <tr>
             <td><label th:for="contents" th:text="#{post.label.contents}">내용</label></td>
             <td><textarea th:style="${'width:500px; height:400px'}" th:field="*{contents}"
-                          th:maxlength="2000" th:text="${post.contents}"></textarea></td>
+                          th:maxlength="2000" th:text="${post.contents}"
+                          th:errorclass="field-error"></textarea></td>
+            <div class="field-error" th:errors="*{contents}">
+                내용 오류
+            </div>
         </tr>
     </table>
     <input type="submit" value="수정">

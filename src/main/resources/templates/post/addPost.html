@@ -11,12 +11,20 @@
     <table>
         <tr>
             <td><label th:text="#{post.label.title}">제목</label></td>
-            <td><input th:field="*{title}" th:style="${'width:500px'}" type="text" maxlength="200"></td>
+            <td><input th:field="*{title}" th:style="${'width:500px'}" type="text"
+                       th:errorclass="field-error" maxlength="150"></td>
+            <div class="field-error" th:errors="*{title}">
+                제목 오류
+            </div>
         </tr>
         <tr>
             <td><label th:text="#{post.label.contents}">내용</label></td>
             <td><textarea th:style="${'width:500px; height:400px'}"
-                          th:field="*{contents}" th:maxlength="2000"></textarea></td>
+                          th:field="*{contents}" th:maxlength="2000"
+                          th:errorclass="field-error"></textarea></td>
+            <div class="field-error" th:errors="*{contents}">
+                내용 오류
+            </div>
         </tr>
     </table>
     <input type="submit" value="등록">

@@ -15,7 +15,9 @@ import org.springframework.security.web.authentication.logout.SecurityContextLog
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -92,7 +94,13 @@ public class MemberController {
     }
 
     @PostMapping("/createMemberForm")
-    public String create(@ModelAttribute("member") MemberDto memberDto){
+    public String create(@Validated @ModelAttribute("member") MemberDto memberDto,
+                         BindingResult bindingResult){
+        if (bindingResult.hasErrors()) {
+            log.info("errors={}", bindingResult);
+            return "createMemberForm";
+        }
+
         Long memberId = memberService.join(memberDto);
         if(memberId==-1L)
             return "error/duplicateErrorPage";
@@ -120,7 +128,13 @@ public class MemberController {
     }
 
     @PostMapping("/edit/{id}")
-    public String edit(@PathVariable Long id, @ModelAttribute("member") MemberDto memberDto){
+    public String edit(@Validated @ModelAttribute("member") MemberDto memberDto,
+                       BindingResult bindingResult, @PathVariable Long id
+                       ){
+        if(bindingResult.hasErrors()){
+            log.info("errors={}", bindingResult);
+            return "editMember";
+        }
         log.info("MemberName: {}", memberDto.getName());
         memberService.edit(id, memberDto);
         return "redirect:/";
