@@ -1,11 +1,14 @@
 package algopa.study.post.domain;
 
+import algopa.study.comment.domain.Comment;
 import algopa.study.member.domain.Member;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -26,6 +29,9 @@ public class Post {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
+//
+//    @OneToMany(mappedBy = "post")
+//    private List<Comment> comments=new ArrayList<>();
 
     private Long views;
 
@@ -34,6 +40,7 @@ public class Post {
         this.contents=contents;
         this.member=member;
         this.postPeriod=postPeriod;
+        this.member.updateMember(this);
     }
 
     // update Entity
@@ -41,6 +48,7 @@ public class Post {
         this.title=title;
         this.contents=contents;
         this.postPeriod=postPeriod;
+        this.member.updateMember(this);
     }
 
     public void updateViews(Long views){

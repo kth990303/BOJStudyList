@@ -37,34 +37,6 @@ class MemberServiceTest {
     public void afterEach(){
     }
 
-    // spring security 테스트코드 이해 필요
-    // edit엔 auth 인증이 필요하기 때문
-//    @Test
-//    void 정보수정() {
-//        createMember();
-//        Member changeMember=new Member("test", "Bronze IV", "test@naver.com", "123456");
-//        Member changeMember2=new Member("test1", "Bronze IV", "test@naver.com", "123456");
-//
-//        service.edit(1L, service.toDto(changeMember));
-//
-//        MemberDto findMemberDto = service.findByName("test");
-//        Assertions.assertThat(findMemberDto.getTier()).isEqualTo("Bronze IV");
-//
-//        // 만약 이름을 강제적으로 바꾸려 해도, 바뀌는 메소드가 없어 변경되지 않음.
-//        service.edit(1L, service.toDto(changeMember2));
-//        MemberDto findMemberDto2 = service.findByName("test1");
-//        Assertions.assertThat(findMemberDto2).isEqualTo(null);
-//    }
-
-    @Test
-    void 회원가입() {
-        createMember();
-
-        MemberDto findMemberDto = service.findByName("test");
-        Assertions.assertThat(findMemberDto.getEmail()).isEqualTo("test@naver.com");
-        Assertions.assertThat(findMemberDto.getTier()).isEqualTo("Bronze V");
-    }
-
     private void createMember() {
         Member member=new Member("test", "Bronze V", "test@naver.com", "123456");
         Member member2=new Member("test2", "Bronze V", "test2@naver.com", "1234");
@@ -73,6 +45,15 @@ class MemberServiceTest {
         service.join(service.toDto(member));
         service.join(service.toDto(member2));
         service.join(service.toDto(member3));
+    }
+
+    @Test
+    void 회원가입() {
+        createMember();
+
+        MemberDto findMemberDto = service.findByName("test");
+        Assertions.assertThat(findMemberDto.getEmail()).isEqualTo("test@naver.com");
+        Assertions.assertThat(findMemberDto.getTier()).isEqualTo("Bronze V");
     }
 
     @Test

@@ -37,9 +37,8 @@ public class PostService {
     private final PostNameMapper postNameMapper=Mappers.getMapper(PostNameMapper.class);
     private final MemberMapper memberMapper=Mappers.getMapper(MemberMapper.class);
 
-    public Long enroll(PostDto postDto){
-        String loginMemberName = SecurityContextHolder.getContext().getAuthentication().getName();
-        Member loginMember = memberRepository.findByName(loginMemberName);
+    public Long enroll(PostDto postDto, String memberName){
+        Member loginMember = memberRepository.findByName(memberName);
 
         // 첫 생성일 땐 생성일자와 수정일자 동일하게
         LocalDateTime now=LocalDateTime.now();

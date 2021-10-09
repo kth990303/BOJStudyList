@@ -1,11 +1,14 @@
 package algopa.study.post.controller;
 
+import algopa.study.member.domain.Member;
+import algopa.study.member.service.MemberService;
 import algopa.study.post.dto.PostDto;
 import algopa.study.post.dto.PostIdDto;
 import algopa.study.post.dto.PostNameDto;
 import algopa.study.post.service.PostService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,6 +25,7 @@ import java.util.List;
 @RequestMapping("/post")
 public class PostController {
     private final PostService postService;
+    private final MemberService memberService;
 
     @GetMapping("/")
     public String home(Model model){
@@ -41,7 +45,8 @@ public class PostController {
         if(bindingResult.hasErrors()){
             return "post/addPost";
         }
-        postService.enroll(postDto);
+        String loginMemberName = SecurityContextHolder.getContext().getAuthentication().getName();
+        postService.enroll(postDto, loginMemberName);
         return "redirect:/post/";
     }
     @GetMapping("/{id}")

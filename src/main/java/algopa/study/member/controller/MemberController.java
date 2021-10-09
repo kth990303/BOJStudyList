@@ -3,7 +3,9 @@ package algopa.study.member.controller;
 import algopa.study.member.domain.Member;
 import algopa.study.member.dto.MemberDto;
 import algopa.study.member.dto.MemberIdDto;
+import algopa.study.member.service.MemberPostService;
 import algopa.study.member.service.MemberService;
+import algopa.study.post.dto.PostIdDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
@@ -30,6 +32,7 @@ import java.util.List;
 @RequiredArgsConstructor // lombok
 public class MemberController {
     private final MemberService memberService;
+    private final MemberPostService memberPostService;
 
     @GetMapping("/")
     public String home(Model model){
@@ -78,9 +81,12 @@ public class MemberController {
         try{
             Long id = memberService.findIdByName(name);
             MemberDto memberDto = memberService.findByName(name);
+            // 회원이 작성한 게시글 리스트
+            List<PostIdDto> posts = memberPostService.findPostsByMember(id);
 
             model.addAttribute("id", id);
             model.addAttribute("member", memberDto);
+            model.addAttribute("posts", posts);
         } catch(Exception e){
             e.printStackTrace();
             return "error/notFound404Page";

@@ -8,6 +8,9 @@ import algopa.study.member.domain.MemberRole;
 import algopa.study.member.dto.MemberDto;
 import algopa.study.member.dto.MemberIdDto;
 import algopa.study.member.mapper.MemberMapper;
+import algopa.study.post.domain.Post;
+import algopa.study.post.dto.PostIdDto;
+import algopa.study.post.mapper.PostIdMapper;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -77,14 +80,15 @@ public class MemberService implements UserDetailsService {
     }
 
     //회원 가입
-    public Long join(MemberDto memberDto){
-        if(checkDuplicateMember(memberDto)){
+    public Long join(MemberDto memberDto) {
+        if (checkDuplicateMember(memberDto)) {
             return -1L;
         }
-        BCryptPasswordEncoder encoder=new BCryptPasswordEncoder();
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         memberDto.setPassword(encoder.encode(memberDto.getPassword()));
         return memberRepository.save(toEntity(memberDto)).getId();
     }
+
     // 회원 DTO 찾기 (id, name)
     @Transactional(readOnly = true)
     public MemberDto findById(Long id){

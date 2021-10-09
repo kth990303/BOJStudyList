@@ -1,5 +1,6 @@
 package algopa.study.member.domain;
 
+import algopa.study.comment.domain.Comment;
 import algopa.study.post.domain.Post;
 import com.sun.istack.NotNull;
 import lombok.AccessLevel;
@@ -28,6 +29,9 @@ public class Member {
 
     @OneToMany(mappedBy = "member")
     private List<Post> posts=new ArrayList<>();
+//
+//    @OneToMany(mappedBy = "member")
+//    private List<Comment> comments=new ArrayList<>();
 
     public Member(String name, String tier, String email, String password) {
         this.name = name;
@@ -45,6 +49,9 @@ public class Member {
         this.tier=tier;
         this.email=email;
         this.password=password;
+    }
+    public void updateMember(final Post post){
+        posts.add(post);
     }
 
 
