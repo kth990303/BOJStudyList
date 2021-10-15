@@ -20,7 +20,31 @@
 </div>
 <hr>
 <div>
-    작성한 게시글/ 댓글 목록은 아직 준비중입니다.
+    <p th:text="|작성한 게시글 수: |"></p>
+    <table width="100%" border="1">
+        <thead>
+        <tr>
+            <th>제목</th>
+            <th>조회수</th>
+            <th sec:authorize="hasRole('ROLE_ADMIN')">정보 수정 및 삭제</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="post : ${posts}">
+            <td><a class="no-uline" th:text="${post.title}"
+                   th:href="@{|/post/${post.id}|}"></a></td>
+            <td><a th:text="${post.views}"></a></td>
+            <td sec:authorize="hasRole('ROLE_ADMIN')">
+                <a sec:authorize="hasRole('ROLE_ADMIN')" href="/"
+                   th:href="@{|/post/edit/${post.id}|}"
+                   th:text="#{post.page.edit}">수정</a>
+                <a sec:authorize="hasRole('ROLE_ADMIN')" href="/"
+                   th:href="@{|/post/delete/${post.id}|}"
+                   th:text="#{post.page.del}">삭제</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
 </div>
 </body>
 </html>

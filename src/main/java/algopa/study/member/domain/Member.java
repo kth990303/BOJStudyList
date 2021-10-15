@@ -27,7 +27,7 @@ public class Member {
 
     private String tier;
 
-    @OneToMany(mappedBy = "member")
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Post> posts=new ArrayList<>();
 //
 //    @OneToMany(mappedBy = "member")
