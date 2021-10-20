@@ -20,8 +20,8 @@
 </div>
 <hr>
 <div>
-    <p th:text="|작성한 게시글 수: |"></p>
-    <table width="100%" border="1">
+    <p th:text="|작성한 게시글 수: ${posts.size()}|"></p>
+    <table width="100%" border="1" th:if="${!posts.isEmpty()}">
         <thead>
         <tr>
             <th>제목</th>
