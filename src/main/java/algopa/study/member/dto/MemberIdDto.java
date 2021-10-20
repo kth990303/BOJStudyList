@@ -24,12 +24,14 @@ public class MemberIdDto {
     @Pattern(regexp = "[a-zA-z0-9]+@[a-zA-z]+[.]+[a-zA-z.]+")
     private String email;
     private String tier;
+    private Boolean isMember;
 
-    public MemberIdDto(Long id, String name, String password, String email, String tier) {
+    public MemberIdDto(Long id, String name, String password, String email, String tier, Boolean isMember) {
         this.id = id;
         this.name = name;
         this.password = password;
         this.email = email;
         this.tier = tier;
+        this.isMember=isMember;
     }
 }

@@ -27,6 +27,8 @@ public class Member {
 
     private String tier;
 
+    private Boolean isMember;
+
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Post> posts=new ArrayList<>();
 //
@@ -52,6 +54,9 @@ public class Member {
     }
     public void updateMember(final Post post){
         posts.add(post);
+    }
+    public void updateMember(Boolean isMember){
+        this.isMember=isMember;
     }
 
 

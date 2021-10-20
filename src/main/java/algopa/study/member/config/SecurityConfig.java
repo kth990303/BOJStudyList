@@ -29,6 +29,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/", "/createMemberForm", "/login", "/errorPage", "/index").permitAll()
                 .antMatchers("/post/").permitAll()
+                .antMatchers("/memberInfo", "/user/").hasAnyRole("ADMIN", "USER")
                 .antMatchers("/editMember").authenticated()
                 .anyRequest().authenticated()
 

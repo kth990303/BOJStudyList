@@ -36,7 +36,6 @@ public class MemberController {
 
     @GetMapping("/")
     public String home(Model model){
-        // 현재 엔티티를 반환중
         List<MemberIdDto> members = memberService.findAllMembers();
         model.addAttribute("members", members);
         return "index";

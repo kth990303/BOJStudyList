@@ -18,6 +18,7 @@
         <span sec:authentication="name"></span>님 환영합니다!</a>
     <a sec:authorize="hasRole('ROLE_ADMIN')">이 사이트의 관리자님이십니다.</a>
     <a sec:authorize="isAuthenticated()" href="/myInfo" th:href="@{/myInfo}">내 정보</a><br>
+    <span><p sec:authorize="hasRole('ROLE_GUEST')">현재 회원가입 승인 대기중입니다.</p></span>
     <hr>
     <div class="container">
         <table width="100%" border="1">

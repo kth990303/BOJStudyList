@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2021-10-04T18:11:22+0900",
+    date = "2021-10-20T19:18:18+0900",
     comments = "version: 1.4.2.Final, compiler: javac, environment: Java 11.0.1 (Oracle Corporation)"
 )
 @Component
@@ -34,27 +34,6 @@ public class MemberMapperImpl implements MemberMapper {
         MemberDto memberDto = new MemberDto( name, tier, email, password );
 
         return memberDto;
-    }
-
-    @Override
-    public Member toEntity(MemberDto d) {
-        if ( d == null ) {
-            return null;
-        }
-
-        String name = null;
-        String tier = null;
-        String email = null;
-        String password = null;
-
-        name = d.getName();
-        tier = d.getTier();
-        email = d.getEmail();
-        password = d.getPassword();
-
-        Member member = new Member( name, tier, email, password );
-
-        return member;
     }
 
     @Override

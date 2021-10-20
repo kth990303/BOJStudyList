@@ -83,12 +83,21 @@ class MemberServiceTest {
     @Test
     void 모든회원조회() {
         createMember();
+        service.changePreMemberToMember(1L);
 
         List<MemberIdDto> members = service.findAllMembers();
 
-        Assertions.assertThat(members.size()).isEqualTo(3);
-        Assertions.assertThat(members.get(0).getName()).isEqualTo("test");
-        Assertions.assertThat(members.get(1).getName()).isEqualTo("test2");
-        Assertions.assertThat(members.get(2).getName()).isEqualTo("test3");
+        Assertions.assertThat(members.size()).isEqualTo(1);
+    }
+
+
+    @Test
+    void findAllPreMember(){
+        createMember();
+        List<MemberIdDto> allPreMembers = service.findAllPreMembers();
+        Assertions.assertThat(allPreMembers.size()).isEqualTo(3);
+        Assertions.assertThat(allPreMembers.get(0).getName()).isEqualTo("test");
+        Assertions.assertThat(allPreMembers.get(1).getName()).isEqualTo("test2");
+        Assertions.assertThat(allPreMembers.get(2).getName()).isEqualTo("test3");
     }
 }

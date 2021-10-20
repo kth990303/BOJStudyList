@@ -47,6 +47,9 @@ public class MemberService implements UserDetailsService {
         if(findMember.getName().equals("kth990303")){
             roles.add(new SimpleGrantedAuthority(MemberRole.ADMIN.getValue()));
         }
+        else if(findMember.getIsMember()){
+            roles.add(new SimpleGrantedAuthority(MemberRole.GUEST.getValue()));
+        }
         roles.add(new SimpleGrantedAuthority(MemberRole.USER.getValue()));
         return new User(findMember.getName(), findMember.getPassword(), roles);
     }
@@ -88,6 +91,13 @@ public class MemberService implements UserDetailsService {
         memberDto.setPassword(encoder.encode(memberDto.getPassword()));
         return memberRepository.save(toEntity(memberDto)).getId();
     }
+    public void changePreMemberToMember(Long id){
+        Optional<Member> member = memberRepository.findById(id);
+        if(member.isEmpty()){
+            throw new NoSuchElementException("회원이 존재하지 않습니다.");
+        }
+        member.get().updateMember(true);
+    }
 
     // 회원 DTO 찾기 (id, name)
     @Transactional(readOnly = true)
@@ -121,7 +131,12 @@ public class MemberService implements UserDetailsService {
     // 클라이언트는 id는 필요없으므로 id를 담는 dto와 담지 않는 dto로 분리함.
     @Transactional(readOnly = true)
     public List<MemberIdDto> findAllMembers(){
-        List<Member> members = (List)memberRepository.findAll();
+        List<Member> members = (List)memberRepository.findAllByIsMemberTrue();
+        return idMapper.toDtoList(members);
+    }
+    @Transactional(readOnly = true)
+    public List<MemberIdDto> findAllPreMembers(){
+        List<Member> members = (List)memberRepository.findAllByIsMemberFalse();
         return idMapper.toDtoList(members);
     }
 
