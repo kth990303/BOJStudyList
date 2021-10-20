@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2021-10-04T18:11:22+0900",
+    date = "2021-10-20T19:18:19+0900",
     comments = "version: 1.4.2.Final, compiler: javac, environment: Java 11.0.1 (Oracle Corporation)"
 )
 @Component
@@ -26,14 +26,16 @@ public class MemberIdMapperImpl implements MemberIdMapper {
         String password = null;
         String email = null;
         String tier = null;
+        Boolean isMember = null;
 
         id = e.getId();
         name = e.getName();
         password = e.getPassword();
         email = e.getEmail();
         tier = e.getTier();
+        isMember = e.getIsMember();
 
-        MemberIdDto memberIdDto = new MemberIdDto( id, name, password, email, tier );
+        MemberIdDto memberIdDto = new MemberIdDto( id, name, password, email, tier, isMember );
 
         return memberIdDto;
     }

@@ -25,7 +25,6 @@ import static org.junit.jupiter.api.Assertions.*;
 @Slf4j
 @SpringBootTest
 @Transactional
-@Rollback(false)
 class MemberPostServiceTest {
     @Autowired
     MemberService service;
