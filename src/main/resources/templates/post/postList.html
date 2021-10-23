@@ -20,7 +20,7 @@
 <a sec:authorize="hasRole('ROLE_ADMIN')">이 사이트의 관리자님이십니다.</a>
 <a sec:authorize="isAuthenticated()" href="/myInfo" th:href="@{/myInfo}">내 정보</a><br>
 <span><p class="important_alert" sec:authorize="hasRole('ROLE_GUEST')">현재 회원가입 승인 대기중입니다.</p></span>
-<a class="no-uline" href="/post/addPost" th:href="@{/post/enroll}">글쓰기</a>
+<a sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_USER')" class="no-uline" href="/post/addPost" th:href="@{/post/enroll}">글쓰기</a>
 <hr>
 <div class="container">
     <table width="100%" border="1">
@@ -37,6 +37,7 @@
         <tr th:each="i : ${#numbers.sequence(posts.size() - 1, 0, -1)}">
             <td><a th:text="${posts[i].id}"></a></td>
             <td><a class="no-uline" th:text="${posts[i].title}"
+                   th:if="${#authorization.expression('hasAnyRole(''ROLE_USER'', ''ROLE_ADMIN'')')}"
                    th:href="@{|/post/${posts[i].id}|}">제목</a></td>
             <td><a th:text="${posts[i].views}"></a></td>
             <td><a class="no-uline" th:text="${posts[i].memberIdDto.name}"

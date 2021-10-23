@@ -50,7 +50,8 @@ public class MemberService implements UserDetailsService {
         else if(!findMember.getIsMember()){
             roles.add(new SimpleGrantedAuthority(MemberRole.GUEST.getValue()));
         }
-        roles.add(new SimpleGrantedAuthority(MemberRole.USER.getValue()));
+        else
+            roles.add(new SimpleGrantedAuthority(MemberRole.USER.getValue()));
         return new User(findMember.getName(), findMember.getPassword(), roles);
     }
     // 회원 정보수정
