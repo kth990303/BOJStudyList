@@ -37,7 +37,9 @@ public class MemberController {
     @GetMapping("/")
     public String home(Model model){
         List<MemberIdDto> members = memberService.findAllMembers();
+        List<MemberIdDto> preMembers = memberService.findAllPreMembers();
         model.addAttribute("members", members);
+        model.addAttribute("preMembers", preMembers);
         return "index";
     }
 
@@ -111,6 +113,31 @@ public class MemberController {
             return "error/duplicateErrorPage";
         return "redirect:/";
     }
+    
+    @GetMapping("/admin/member/preMemberList")
+    public String memberAdmin(Model model){
+        try{
+            Collection<? extends GrantedAuthority> authorities
+                    = SecurityContextHolder.getContext().getAuthentication().getAuthorities();
+            if(!authorities.contains(new SimpleGrantedAuthority("ROLE_ADMIN"))){
+                return "error/notFound404Page";
+            }
+
+            List<MemberIdDto> preMembers = memberService.findAllPreMembers();
+            model.addAttribute("preMembers", preMembers);
+        } catch(Exception e){
+            e.printStackTrace();
+            return "error/notFound404Page";
+        }
+        return "memberPreRegister/memberAdmin";
+    }
+
+    @GetMapping("/admin/member/accept/{member.name}")
+    public String acceptMemberByAdmin(@PathVariable String name){
+        Long id = memberService.findIdByName(name);
+        memberService.changePreMemberToMember(id);
+        return "redirect:/admin/member/preMemberList";
+    }
 
     @GetMapping("/edit/{id}")
     public String editForm(@PathVariable Long id, Model model){
@@ -122,6 +149,12 @@ public class MemberController {
         // 수정하려는 유저정보
         MemberDto memberDto = memberService.findById(id);
         String name=memberDto.getName();
+        if(authorities.contains(new SimpleGrantedAuthority("ROLE_ADMIN"))){
+            // 관리자가 회원을 수정하는 경우는 두 가지.
+            // 1. 회원정보 수정 2. 회원을 승인하기 전 정보를 설정하기 위한 수정 (거절 시엔 굳이 수정 필요 X)
+            // 2번을 위하여 넣은 코드.
+            memberService.changePreMemberToMember(id);
+        }
 
         // 관리자가 아닌데도, 타인의 정보를 수정하는 버그가 발생할 경우
         if(!authorities.contains(new SimpleGrantedAuthority("ROLE_ADMIN")) && !authMemberName.equals(name)){

@@ -8,6 +8,8 @@
 </head>
 <body>
     <h1 th:text="#{main.title}">소박하지만 그룹입니다</h1>
+    <a class="adminPageLink" sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/admin/member/preMemberList}">
+        승인대기회원: <span th:text="${preMembers.size()}">0</span></a>
     <a sec:authorize="isAnonymous()" href="/login"
        th:text="#{member.page.login}" th:href="@{/login}">로그인</a><br>
     <a sec:authorize="isAnonymous()" href="/createMemberForm"
@@ -18,7 +20,7 @@
         <span sec:authentication="name"></span>님 환영합니다!</a>
     <a sec:authorize="hasRole('ROLE_ADMIN')">이 사이트의 관리자님이십니다.</a>
     <a sec:authorize="isAuthenticated()" href="/myInfo" th:href="@{/myInfo}">내 정보</a><br>
-    <span><p sec:authorize="hasRole('ROLE_GUEST')">현재 회원가입 승인 대기중입니다.</p></span>
+    <span><p class="important_alert" sec:authorize="hasRole('ROLE_GUEST')">현재 회원가입 승인 대기중입니다.</p></span>
     <hr>
     <div class="container">
         <table width="100%" border="1">

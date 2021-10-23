@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>회원 대기목록</title>
+    <link href="../static/css/index.css" th:href="@{/css/index.css}" rel="stylesheet" />
+</head>
+<body>
+<h1>Admin Mode _ Accept Member</h1>
+<hr>
+<div class="container">
+    <table width="100%" border="1">
+        <thead>
+        <tr>
+            <th>백준 아이디</th>
+            <th>Solved 티어</th>
+            <th>백준 프로필링크</th>
+            <th>승인 및 거절</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="member : ${preMembers}">
+            <td><a th:text="${member.name}"></a></td>
+            <td><a th:text="${member.tier}"></a></td>
+            <td>
+                <a th:href="@{|https://www.acmicpc.net/user/${member.name}|}"
+                   th:target="_blank">백준 프로필</a></td>
+            <td>
+                <a th:href="@{|/edit/${member.id}|}">수정 및 승인</a>
+                <a th:href="@{|/delete/${member.id}|}"
+                   th:text="#{member.page.secession}">삭제</a>
+            </td>
+        </tr>
+        </tbody>
+
+    </table>
+</div>
+<hr>
+<div>
+    <a class="no-uline" th:action="@{/}" th:href="@{/}">홈으로</a>
+</div>
+</body>
+</html>

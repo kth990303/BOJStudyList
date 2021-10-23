@@ -33,3 +33,12 @@ a.no-uline:active  { text-decoration:none }
     border-color: #dc3545;
     color: #dc3545;
 }
+
+.adminPageLink {
+    text-align: right;
+}
+
+.important_alert {
+    font-size: larger;
+    color: #dc3545;
+}

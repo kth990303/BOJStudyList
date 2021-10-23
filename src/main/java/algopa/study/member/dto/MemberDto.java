@@ -14,6 +14,7 @@ import javax.validation.constraints.Size;
 
 @Getter @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+// 회원가입할 때만 이 DTO를 사용합시다.
 public class MemberDto {
     @NotEmpty(message = "이름은 필수입력 대상입니다.")
     private String name;

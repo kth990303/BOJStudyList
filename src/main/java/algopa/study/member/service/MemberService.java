@@ -47,7 +47,7 @@ public class MemberService implements UserDetailsService {
         if(findMember.getName().equals("kth990303")){
             roles.add(new SimpleGrantedAuthority(MemberRole.ADMIN.getValue()));
         }
-        else if(findMember.getIsMember()){
+        else if(!findMember.getIsMember()){
             roles.add(new SimpleGrantedAuthority(MemberRole.GUEST.getValue()));
         }
         roles.add(new SimpleGrantedAuthority(MemberRole.USER.getValue()));
