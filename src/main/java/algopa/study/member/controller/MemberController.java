@@ -132,13 +132,6 @@ public class MemberController {
         return "memberPreRegister/memberAdmin";
     }
 
-    @GetMapping("/admin/member/accept/{member.name}")
-    public String acceptMemberByAdmin(@PathVariable String name){
-        Long id = memberService.findIdByName(name);
-        memberService.changePreMemberToMember(id);
-        return "redirect:/admin/member/preMemberList";
-    }
-
     @GetMapping("/edit/{id}")
     public String editForm(@PathVariable Long id, Model model){
         // 현재 로그인한 유저 정보가 관리자인지 확인하는 코드
