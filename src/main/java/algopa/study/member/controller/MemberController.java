@@ -149,12 +149,6 @@ public class MemberController {
         // 수정하려는 유저정보
         MemberDto memberDto = memberService.findById(id);
         String name=memberDto.getName();
-        if(authorities.contains(new SimpleGrantedAuthority("ROLE_ADMIN"))){
-            // 관리자가 회원을 수정하는 경우는 두 가지.
-            // 1. 회원정보 수정 2. 회원을 승인하기 전 정보를 설정하기 위한 수정 (거절 시엔 굳이 수정 필요 X)
-            // 2번을 위하여 넣은 코드.
-            memberService.changePreMemberToMember(id);
-        }
 
         // 관리자가 아닌데도, 타인의 정보를 수정하는 버그가 발생할 경우
         if(!authorities.contains(new SimpleGrantedAuthority("ROLE_ADMIN")) && !authMemberName.equals(name)){
@@ -172,6 +166,14 @@ public class MemberController {
         if(bindingResult.hasErrors()){
             log.info("errors={}", bindingResult);
             return "editMember";
+        }
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
+        if(authorities.contains(new SimpleGrantedAuthority("ROLE_ADMIN"))){
+            // 관리자가 회원을 수정하는 경우는 두 가지.
+            // 1. 회원정보 수정 2. 회원을 승인하기 전 정보를 설정하기 위한 수정 (거절 시엔 굳이 수정 필요 X)
+            // 2번을 위하여 넣은 코드.
+            memberService.changePreMemberToMember(id);
         }
         log.info("MemberName: {}", memberDto.getName());
         memberService.edit(id, memberDto);
