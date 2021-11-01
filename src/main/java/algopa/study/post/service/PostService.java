@@ -54,38 +54,27 @@ public class PostService {
         postRepository.deleteById(id);
     }
     public void edit(PostDto postDto, Long id){
-        Optional<Post> post = postRepository.findById(id);
-        try{
-            if(post.isEmpty())
-                throw new NoSuchElementException();
-            // 수정일자 변경
-            String creationDate = post.get().getPostPeriod().getCreationDate();
-            LocalDateTime now=LocalDateTime.now();
-            String editDate = now.format(DateTimeFormatter.ofPattern("yyyy/MM/dd kk:mm:ss"));
-            PostPeriod postPeriod = new PostPeriod(creationDate, editDate);
+        Post post = postRepository.findById(id).orElseThrow(() -> new NoSuchElementException());
 
-            post.get().updatePost(postDto.getTitle(), postDto.getContents(), postPeriod);
-        } catch (Exception e){
-            e.printStackTrace();
-        }
+        String creationDate=post.getPostPeriod().getCreationDate();
+        LocalDateTime now=LocalDateTime.now();
+        String editDate = now.format(DateTimeFormatter.ofPattern("yyyy/MM/dd kk:mm:ss"));
+        PostPeriod postPeriod = new PostPeriod(creationDate, editDate);
+
+        post.updatePost(postDto.getTitle(), postDto.getContents(), postPeriod);
     }
     @Transactional(readOnly = true)
     public PostDto findById(Long id){
-        Optional<Post> findPost = postRepository.findById(id);
-        if(findPost.isEmpty()){
-            throw new NoSuchElementException("게시글이 존재하지 않습니다.");
-        }
-        return toDto(findPost.get());
+        return toDto(postRepository.findById(id).
+                orElseThrow(()->new NoSuchElementException("게시글이 존재하지 않습니다.")));
     }
     // postNameDto: 제목을 클릭하면 내용을 보여주는 DTO.
     public PostNameDto findPostNameDtoById(Long id){
-        Optional<Post> findPost = postRepository.findById(id);
-        if(findPost.isEmpty()){
-            throw new NoSuchElementException("게시글이 존재하지 않습니다.");
-        }
+        Post post = postRepository.findById(id).orElseThrow(() ->
+                new NoSuchElementException("게시글이 존재하지 않습니다."));
         // 따라서 조회수를 증가하는 처리를 진행합니다.
-        updateViews(findPost.get(), findPost.get().getViews());
-        return postNameMapper.toDto(findPost.get());
+        updateViews(post, post.getViews());
+        return postNameMapper.toDto(post);
     }
     @Transactional(readOnly = true)
     public List<PostDto> findByTitle(String title){
