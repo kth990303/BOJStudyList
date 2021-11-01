@@ -56,31 +56,29 @@ public class MemberService implements UserDetailsService {
     }
     // 회원 정보수정
     public Long edit(Long id, MemberDto memberDto) {
-        Optional<Member> findMember = memberRepository.findById(id);
-        log.info("findMember={}", findMember.get().getName());
-        if(findMember.isEmpty()){
+        Member findMember = memberRepository.findById(id).orElse(null);
+        log.info("findMember={}", findMember.getName());
+        if(findMember==null){
             log.info("회원이 존재하지 않습니다.");
             return -1L;
         }
-        Member member = findMember.get();
         BCryptPasswordEncoder encoder=new BCryptPasswordEncoder();
-
         String authMemberName = SecurityContextHolder.getContext().getAuthentication().getName();
 
         // 관리자는 비밀번호는 변경할 수 없도록
         if (authMemberName.equals(memberDto.getName())) {
             memberDto.setPassword(encoder.encode(memberDto.getPassword()));
-            member.updateMember(memberDto.getTier(), memberDto.getEmail(), memberDto.getPassword());
+            findMember.updateMember(memberDto.getTier(), memberDto.getEmail(), memberDto.getPassword());
         }
         // 관리자가 아닌, 자기 자신의 정보수정일 경우 비밀번호 변경 가능
         else{
-            member.updateMember(memberDto.getTier(), memberDto.getEmail());
+            findMember.updateMember(memberDto.getTier(), memberDto.getEmail());
         }
         // 관리자가 비밀번호를 변경할 수 없도록 하는 경우는 비밀번호에 null이 들어가므로
         // 아예 변경이 되지 않음.
         // 관리자도 변경이 불가능하도록 하려면 아래 mapper 코드를 이용할 것.
         //mapper.updateFromDto(memberDto, member);
-        return member.getId();
+        return findMember.getId();
     }
 
     //회원 가입
@@ -93,21 +91,18 @@ public class MemberService implements UserDetailsService {
         return memberRepository.save(toEntity(memberDto)).getId();
     }
     public void changePreMemberToMember(Long id){
-        Optional<Member> member = memberRepository.findById(id);
-        if(member.isEmpty()){
-            throw new NoSuchElementException("회원이 존재하지 않습니다.");
-        }
-        member.get().updateMember(true);
+        memberRepository.findById(id).ifPresentOrElse(m->m.updateMember(true),
+                ()->{throw new NoSuchElementException("회원이 존재하지 않습니다.");});
     }
 
     // 회원 DTO 찾기 (id, name)
     @Transactional(readOnly = true)
     public MemberDto findById(Long id){
-        Optional<Member> member = memberRepository.findById(id);
-        if(member.isEmpty()){
+        Member member = memberRepository.findById(id).orElse(null);
+        if(member==null){
             throw new NoSuchElementException("회원이 존재하지 않습니다.");
         }
-        return toDto(member.get());
+        return toDto(member);
     }
     @Transactional(readOnly = true)
     public MemberDto findByName(String name){
